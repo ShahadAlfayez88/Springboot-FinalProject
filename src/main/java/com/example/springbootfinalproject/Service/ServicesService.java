@@ -2,7 +2,12 @@ package com.example.springbootfinalproject.Service;
 
 import com.example.springbootfinalproject.Exception.ApiException;
 
+import com.example.springbootfinalproject.Model.Customer;
+import com.example.springbootfinalproject.Model.MyUser;
+import com.example.springbootfinalproject.Model.ServiceProvider;
 import com.example.springbootfinalproject.Model.Services;
+import com.example.springbootfinalproject.Repository.MyUserRepository;
+import com.example.springbootfinalproject.Repository.ServiceProviderRepository;
 import com.example.springbootfinalproject.Repository.ServicesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,11 +18,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServicesService {
     private final ServicesRepository serviceRepository;
-//get all service
+    private final ServiceProviderRepository serviceProviderRepository;
+    private final MyUserRepository myUserRepository;
+
+
+
+    //get all service
     public List<Services> getAllServices(){
         return serviceRepository.findAll();
     }
-//get Services by id
+    //get all service by user id
+    public List<Services> getAllServicesById(Integer user_id){
+
+        MyUser myUser =myUserRepository.findMyUsersById(user_id);
+        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser(myUser);
+
+        if(serviceProvider==null||myUser==null){
+            throw new ApiException("Not Found!");
+        }
+
+        return serviceProvider.getServices();
+    }
+
+
+    //get Services by id
     public Services getServicesById(Integer id){
         Services services=serviceRepository.findServicesById(id);
         if (services==null){
@@ -25,17 +49,40 @@ public class ServicesService {
         }
         return services;
     }
+
+
+
     //add Services
-    public void addServices(Services services){
+    public void addServices(Services services,  Integer user_id){
+        MyUser myUser = myUserRepository.findMyUsersById(user_id);
+        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser(myUser);
+
+        if(serviceProvider==null||myUser==null){
+            throw new ApiException("Not Found!");
+        }
+
+        //assign service
+        services.setServiceProvider(serviceProvider);
         serviceRepository.save(services);
+        // assign provider
+        serviceProvider.getServices().add(services);
+        serviceProviderRepository.save(serviceProvider);
+
+
     }
 
     //update Services
-       public void updateServices( Services services,Integer id){
+       public void updateServices(Services services ,Integer user_id , Integer id){
+
+        MyUser myUser = myUserRepository.findMyUsersById(user_id);
         Services oldServices=serviceRepository.findServicesById(id);
 
-           if(oldServices==null){
-               throw new ApiException("Services Not Found");
+        // check user and provider
+
+           if(oldServices==null || myUser==null){
+               throw new ApiException("service or user Not Found!");
+           }else if(oldServices.getServiceProvider().getMyUser().getId()!=user_id){
+               throw new ApiException("Sorry , You do not have the authority to update this Service!");
            }
 
         oldServices.setId(id);
@@ -49,13 +96,23 @@ public class ServicesService {
     }
     //delete Services
 
-    public void deleteServices(Integer id){
+    public void deleteServices(Integer id, Integer user_id){
+        MyUser myUser = myUserRepository.findMyUsersById(user_id);
         Services services=serviceRepository.findServicesById(id);
-        if(services==null){
-            throw new ApiException("Services Not Found");
+
+
+        // check user and provider
+
+        if(services==null || myUser==null){
+            throw new ApiException("service or user Not Found!");
+        }else if(services.getServiceProvider().getMyUser().getId()!=user_id){
+            throw new ApiException("Sorry , You do not have the authority to delete this Service!");
         }
+
         serviceRepository.delete(services);
     }
+
+
 
 
 }

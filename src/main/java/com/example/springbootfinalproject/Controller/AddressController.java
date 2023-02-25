@@ -39,17 +39,25 @@ public class AddressController {
         addressService.addAddressToProvider(address,provider_id);
         return ResponseEntity.status(HttpStatus.OK).body("Address Added");
     }
+
+
     //update Address
-    @PutMapping("/update/{id}")
-    public ResponseEntity updateAddress(@RequestBody @Valid Address address, @PathVariable Integer id){
-       addressService.updateAddress(address,id);
+    @PutMapping("/customer/update/{userid}/{id}")
+    public ResponseEntity updateCustomerAddress(@RequestBody @Valid Address address, @PathVariable Integer userid,@PathVariable Integer id){
+        addressService.updateCustomerAddress(address,userid,id);
         return ResponseEntity.status(HttpStatus.OK).body("Address Updated");
     }
 
+    //update Address
+    @PutMapping("/provider/update/{userid}/{id}")
+    public ResponseEntity updateProviderAddress(@RequestBody @Valid Address address, @PathVariable Integer userid,@PathVariable Integer id){
+        addressService.updateProviderAddress(address,userid,id);
+        return ResponseEntity.status(HttpStatus.OK).body("Address Updated");
+    }
     //delete Address
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteAddress(@PathVariable Integer id){
-        addressService.deleteAddress(id);
+    @DeleteMapping("/delete/{userid}/{id}")
+    public ResponseEntity deleteAddress(@PathVariable Integer id,@PathVariable Integer userid){
+        addressService.deleteAddress(id,userid);
         return ResponseEntity.status(HttpStatus.OK).body("Address deleted");
     }
 

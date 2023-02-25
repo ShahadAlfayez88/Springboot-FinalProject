@@ -42,6 +42,10 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
     List<Comment> comments;
 
+    // Third Relationship - one to many [ customer has many orders]
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
+    List<BookingService> bookingServices;
+
 
 
 

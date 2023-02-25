@@ -1,11 +1,8 @@
 package com.example.springbootfinalproject.Service;
 
 import com.example.springbootfinalproject.Exception.ApiException;
-import com.example.springbootfinalproject.Model.Address;
-import com.example.springbootfinalproject.Model.BookingService;
-import com.example.springbootfinalproject.Model.Services;
-import com.example.springbootfinalproject.Repository.BookingServiceRepository;
-import com.example.springbootfinalproject.Repository.ServicesRepository;
+import com.example.springbootfinalproject.Model.*;
+import com.example.springbootfinalproject.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +14,18 @@ public class BookingServiceService {
     private final BookingServiceRepository bookingServiceRepository;
     private  final ServicesRepository servicesRepository;
 
+    private final ServiceProviderRepository serviceProviderRepository;
+
+    private final CustomerRepository customerRepository;
+
+    private final MyUserRepository myUserRepository;
+
     //get all BookingServices
     public List<BookingService> getAllBookingService(){
         return bookingServiceRepository.findAll();
     }
+
+
     //get BookingService by id
     public BookingService getBookingServiceById(Integer id){
         BookingService bookingService=bookingServiceRepository.findBookingServicesById(id);
@@ -29,29 +34,51 @@ public class BookingServiceService {
         }
         return bookingService;
     }
+
+
     //add BookingService
-    public void addBookingService(BookingService bookingService,Integer service_id){
+    public void addBookingService(BookingService bookingService,Integer service_id, Integer customer_id, Integer provider_id){
+
+        // get service
         Services services=servicesRepository.findServicesById(service_id);
-        if (service_id==null){
-            throw new ApiException("Service Not Found ");
-        }
+
+        // get provider
+        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderById(provider_id);
+
+        // get customer
+        Customer customer = customerRepository.findCustomerById(customer_id);
+
+
+        bookingService.setServiceProvider(serviceProvider);
+        bookingService.setCustomer(customer);
+        bookingService.setServices(services);
         bookingService.setStatus("new");
-        bookingService.setTotalPrice(services.getPrice());
+
+        Double vat = services.getPrice()*0.15;
+
+        bookingService.setTotalPrice(services.getPrice()+vat);
         bookingServiceRepository.save(bookingService);
+
+        // assign order
+        customer.getBookingServices().add(bookingService);
+        serviceProvider.getBookingServices().add(bookingService);
+        serviceProviderRepository.save(serviceProvider);
+        customerRepository.save(customer);
     }
 
     //update BookingService
     public void updateBookingService( BookingService bookingService,Integer id){
-        BookingService oldBookingService=bookingServiceRepository.findBookingServicesById(id);
-        if(oldBookingService==null){
+        BookingService NewbookingService=bookingServiceRepository.findBookingServicesById(id);
+        if(NewbookingService==null){
             throw new ApiException("BookingService Not Found");
         }
-        oldBookingService.setId(id);
-        oldBookingService.setAvailabilityDate(bookingService.getAvailabilityDate());
-        oldBookingService.setAvailabilityTime(bookingService.getAvailabilityTime());
+        NewbookingService.setId(id);
+        NewbookingService.setStatus(bookingService.getStatus());
+        NewbookingService.setAvailabilityDate(bookingService.getAvailabilityDate());
+        NewbookingService.setAvailabilityTime(bookingService.getAvailabilityTime());
 
 
-        bookingServiceRepository.save(oldBookingService);
+        bookingServiceRepository.save(NewbookingService);
     }
     //delete BookingService
 
@@ -62,4 +89,8 @@ public class BookingServiceService {
         }
         bookingServiceRepository.delete(bookingService);
     }
+
+
+
+
 }

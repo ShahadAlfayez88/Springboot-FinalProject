@@ -4,6 +4,7 @@ import com.example.springbootfinalproject.Model.ServiceProvider;
 import com.example.springbootfinalproject.Service.ProviderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,19 @@ public class ServiceProviderController {
     public ResponseEntity deleteProvider(@PathVariable Integer id){
         providerService.deleteProvider(id);
         return ResponseEntity.status(200).body("Provider is deleted ");
+    }
+
+    // get order detail
+    @GetMapping("/getOrder/{provider_id}/{order_id}")
+    public ResponseEntity getOrder(@PathVariable Integer provider_id,@PathVariable Integer order_id){
+        Object bookingService = providerService.getOrderByID(provider_id,order_id);
+        return ResponseEntity.status(200).body(bookingService);
+    }
+
+    // get all orders in the system by user id
+    @GetMapping("/get-all/{user_id}")
+    public ResponseEntity getAllBookingServicesByUserId(@PathVariable Integer user_id){
+        return ResponseEntity.status(HttpStatus.OK).body(providerService.getAllBookingServiceById(user_id));
     }
 
 

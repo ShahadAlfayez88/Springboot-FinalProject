@@ -47,13 +47,22 @@ public class ServiceProvider {
     @JsonIgnore
     private MyUser myUser;
 
-    // First Relationship - one to many [ customer has many addresses]
+    // First Relationship - one to many [ provider has many addresses]
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "serviceProvider")
     List<Address> address;
 
-    // Second Relationship - one to many [ customer has many comments]
+    // Second Relationship - one to many [ provider has many comments]
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "serviceProvider")
     List<Comment> comments;
+
+    // Third Relationship - one to many [ provider has many services]
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "serviceProvider")
+    List<Services> services;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "serviceProvider")
+    List<BookingService> bookingServices;
+
 
 
 }

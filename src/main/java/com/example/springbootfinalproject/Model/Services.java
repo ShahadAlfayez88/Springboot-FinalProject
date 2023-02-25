@@ -1,14 +1,14 @@
 package com.example.springbootfinalproject.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -42,4 +42,12 @@ public class Services {
     @NotNull(message = "followingPeriod Should not be Empty")
     @Min(value = 3,message = "Following Period Should not less than 3")
     private Integer followingPeriod;
+
+    @ManyToOne
+    @JoinColumn(name = "provider_id", referencedColumnName = "id")
+    @JsonIgnore
+    ServiceProvider serviceProvider;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "services")
+    List<BookingService> bookingServices;
 }

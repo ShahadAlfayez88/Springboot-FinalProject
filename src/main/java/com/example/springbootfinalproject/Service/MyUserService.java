@@ -51,7 +51,7 @@ public class MyUserService {
         myUser.setUsername(customerDTO.getUsername());
 
         // add customer
-        Customer customer = new Customer(customerDTO.getId(),customerDTO.getName(),customerDTO.getEmail(),customerDTO.getPhoneNumber(),myUser,null,null);
+        Customer customer = new Customer(customerDTO.getId(),customerDTO.getName(),customerDTO.getEmail(),customerDTO.getPhoneNumber(),myUser,null,null,null);
 
         myUser.setCustomer(customer);
         myUserRepository.save(myUser);
@@ -82,7 +82,7 @@ public class MyUserService {
 
 
             // add service provider
-            ServiceProvider serviceProvider = new ServiceProvider(serviceProviderDTO.getId(),serviceProviderDTO.getName(),serviceProviderDTO.getEmail(),serviceProviderDTO.getPhoneNumber(),serviceProviderDTO.getSpecialisedAt(),serviceProviderDTO.getYearsOfExperience(),serviceProviderDTO.getCommercialRegister(),myUser,null,null);
+            ServiceProvider serviceProvider = new ServiceProvider(serviceProviderDTO.getId(),serviceProviderDTO.getName(),serviceProviderDTO.getEmail(),serviceProviderDTO.getPhoneNumber(),serviceProviderDTO.getSpecialisedAt(),serviceProviderDTO.getYearsOfExperience(),serviceProviderDTO.getCommercialRegister(),myUser,null,null,null,null);
 
             serviceProvider.setMyUser(myUser);
             serviceProviderRepository.save(serviceProvider);
@@ -119,11 +119,11 @@ public class MyUserService {
 
 
         // new customer
-        Customer customer = new Customer(customerDTO.getId(),customerDTO.getName(),customerDTO.getEmail(),customerDTO.getPhoneNumber(),myUser,null,null);
+        Customer customer = new Customer(customerDTO.getId(),customerDTO.getName(),customerDTO.getEmail(),customerDTO.getPhoneNumber(),myUser,null,null,null);
         customerService.updateCustomer(id,customer);
     }
 
-    // Update Serive Provider and User
+    // Update Provider and User
     public void updateProvider(ServiceProviderDTO serviceProviderDTO, Integer id){
         // NewUser
         MyUser myUser = new MyUser();
@@ -134,8 +134,8 @@ public class MyUserService {
         myUserRepository.save(myUser);
 
 
-        // new customer
-        ServiceProvider serviceProvider = new ServiceProvider(serviceProviderDTO.getId(), serviceProviderDTO.getName(), serviceProviderDTO.getEmail(), serviceProviderDTO.getPhoneNumber(), serviceProviderDTO.getSpecialisedAt(), serviceProviderDTO.getYearsOfExperience(), serviceProviderDTO.getCommercialRegister(),myUser,null,null);
+        // new provider
+        ServiceProvider serviceProvider = new ServiceProvider(serviceProviderDTO.getId(), serviceProviderDTO.getName(), serviceProviderDTO.getEmail(), serviceProviderDTO.getPhoneNumber(), serviceProviderDTO.getSpecialisedAt(), serviceProviderDTO.getYearsOfExperience(), serviceProviderDTO.getCommercialRegister(),myUser,null,null,null,null);
         providerService.updateProvider(id,serviceProvider);
     }
 

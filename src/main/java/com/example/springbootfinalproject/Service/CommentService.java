@@ -36,20 +36,32 @@ public class CommentService {
 
     //add Comment
     public void addComment(Comment comment, Integer customer_id, Integer provider_id){
+        // get provider
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderById(provider_id);
+
+        // get customer
         Customer customer = customerRepository.findCustomerById(customer_id);
 
-        // assign comment
-        comment.setCustomer(customer);
-        comment.setServiceProvider(serviceProvider);
-        commentRepository.save(comment);
+        // check if the customer is allowed to add comment
 
-        // assign customer
-        customer.getComments().add(comment);
-        serviceProvider.getComments().add(comment);
-        customerRepository.save(customer);
-        serviceProviderRepository.save(serviceProvider);
+        for(int i = 0 ; i<customer.getBookingServices().size();i++){
 
+            if (customer.getBookingServices().get(i).getId()==serviceProvider.getBookingServices().get(i).getId()){
+                comment.setCustomer(customer);
+                comment.setServiceProvider(serviceProvider);
+                commentRepository.save(comment);
+
+                // assign customer
+                customer.getComments().add(comment);
+                serviceProvider.getComments().add(comment);
+                customerRepository.save(customer);
+                serviceProviderRepository.save(serviceProvider);
+                throw new ApiException("comment have been added");
+
+            }
+
+    }
+     throw new ApiException("Your not allowed to add comment");
     }
 
     //update Comment
