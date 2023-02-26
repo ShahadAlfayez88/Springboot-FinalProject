@@ -35,12 +35,12 @@ public class CommentService {
     }
 
     //add Comment
-    public void addComment(Comment comment, Integer customer_id, Integer provider_id){
+    public void addComment(Comment comment, Integer user_id, Integer provider_id){
         // get provider
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderById(provider_id);
 
         // get customer
-        Customer customer = customerRepository.findCustomerById(customer_id);
+        Customer customer = customerRepository.findCustomerByMyUser_Id(user_id);
 
         // check if the customer is allowed to add comment
         if(customer==null || serviceProvider==null){
@@ -67,25 +67,25 @@ public class CommentService {
      throw new ApiException("Your not allowed to add comment");
     }
 
-    //update Comment
-    public void updateComment( Comment comment,Integer id){
-        Comment oldComment=commentRepository.findCommentById(id);
-        if(oldComment==null){
-            throw new ApiException("Comment Not Found");
-        }
-        oldComment.setId(id);
-        oldComment.setMessage(comment.getMessage());
-        oldComment.setRating(comment.getRating());
+//    //update Comment
+//    public void updateComment( Comment comment,Integer id){
+//        Comment oldComment=commentRepository.findCommentById(id);
+//        if(oldComment==null){
+//            throw new ApiException("Comment Not Found");
+//        }
+//        oldComment.setId(id);
+//        oldComment.setMessage(comment.getMessage());
+//        oldComment.setRating(comment.getRating());
+//
+//        commentRepository.save(oldComment);
+//    }
 
-        commentRepository.save(oldComment);
-    }
-    //delete Comment
-
-    public void deleteComment(Integer id){
-        Comment comment=commentRepository.findCommentById(id);
-        if(comment==null){
-            throw new ApiException("Comment Not Found");
-        }
-        commentRepository.delete(comment);
-    }
+      //delete Comment
+//    public void deleteComment(Integer id){
+//        Comment comment=commentRepository.findCommentById(id);
+//        if(comment==null){
+//            throw new ApiException("Comment Not Found");
+//        }
+//        commentRepository.delete(comment);
+//    }
 }

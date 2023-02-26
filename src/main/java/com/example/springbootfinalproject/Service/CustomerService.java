@@ -51,12 +51,12 @@ public class CustomerService {
 
 
     // Delete
-    public void deleteCustomer(Integer id) {
-        Customer Customer = customerRepository.findCustomerById(id);
-        if (!customerRepository.existsById(id)) {
+    public void deleteCustomer(Integer user_id) {
+        Customer customer = customerRepository.findCustomerByMyUser_Id(user_id);
+        if (customer==null) {
             throw new ApiException("Id is not found");
         }
-        customerRepository.delete(Customer);
+        customerRepository.delete(customer);
 //        myUserRepository.delete();
     }
 
@@ -73,9 +73,9 @@ public class CustomerService {
 
     // get order by id
 
-    public Object getOrderByID(Integer customer_id, Integer order_id) {
+    public Object getOrderByID(Integer user_id, Integer order_id) {
 
-        Customer customer = customerRepository.findCustomerById(customer_id);
+        Customer customer = customerRepository.findCustomerByMyUser_Id(user_id);
 
         List<Object> details = new ArrayList<>();
 
@@ -91,6 +91,7 @@ public class CustomerService {
 
         throw new ApiException("Order not found");
     }
+
 
     // get comment by company name
 
@@ -108,7 +109,7 @@ public class CustomerService {
     //get all orders by id
     public Object getAllBookingServiceById(Integer userId) {
         MyUser myUser = myUserRepository.findMyUsersById(userId);
-        Customer customer= customerRepository.findCustomerByMyUser(myUser);
+        Customer customer= customerRepository.findCustomerByMyUser_Id(userId);
 
         if (myUser==null || customer ==null){
             throw new ApiException("Not Found!");

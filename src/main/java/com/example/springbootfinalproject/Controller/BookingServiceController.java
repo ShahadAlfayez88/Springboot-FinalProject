@@ -47,12 +47,12 @@ public class BookingServiceController {
         return ResponseEntity.status(HttpStatus.OK).body("Updated Done");
     }
 
-    //delete BookingService
-    //add user id
-    @DeleteMapping("/delete/{id}/{user_id}")
-    public ResponseEntity deleteBookingService(@PathVariable Integer id,@PathVariable Integer user_id){
-        bookingServiceService.deleteBookingService(id,user_id);
-        return ResponseEntity.status(HttpStatus.OK).body("Booking service deleted");
-    }
+//    //delete BookingService
+//    //add user id
+//    @DeleteMapping("/delete/{id}/{user_id}")
+//    public ResponseEntity deleteBookingService(@PathVariable Integer id,@PathVariable Integer user_id){
+//        bookingServiceService.deleteBookingService(id,user_id);
+//        return ResponseEntity.status(HttpStatus.OK).body("Booking service deleted");
+//    }
 
 }

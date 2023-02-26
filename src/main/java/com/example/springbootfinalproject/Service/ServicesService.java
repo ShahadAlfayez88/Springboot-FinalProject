@@ -31,7 +31,7 @@ public class ServicesService {
     public List<Services> getAllServicesById(Integer user_id){
 
         MyUser myUser =myUserRepository.findMyUsersById(user_id);
-        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser(myUser);
+        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
 
         if(serviceProvider==null||myUser==null){
             throw new ApiException("Not Found!");

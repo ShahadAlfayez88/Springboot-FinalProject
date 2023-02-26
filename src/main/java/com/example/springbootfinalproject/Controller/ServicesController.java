@@ -39,8 +39,8 @@ public class ServicesController {
     //add  Services
     // add user id
     @PostMapping("/add/{user_id}")
-    public ResponseEntity addServices(@RequestBody @Valid Services services, @PathVariable Integer provider_id){
-        serviceService.addServices(services,provider_id);
+    public ResponseEntity addServices(@RequestBody @Valid Services services, @PathVariable Integer user_id){
+        serviceService.addServices(services,user_id);
         return ResponseEntity.status(HttpStatus.OK).body("Services Added");
     }
 

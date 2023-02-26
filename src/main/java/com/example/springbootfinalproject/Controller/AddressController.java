@@ -15,13 +15,20 @@ public class AddressController {
     private final AddressService addressService;
 
     // get all Addresses
-    @GetMapping("/customer/get-all{user_id}")
+
+    @GetMapping("/customer/get-all")
+    public ResponseEntity getAllAddresses(){
+        return ResponseEntity.status(HttpStatus.OK).body(addressService.getAllAdress());
+    }
+
+
+    @GetMapping("/customer/get-all/{user_id}")
     public ResponseEntity getCustomerAddresses(@PathVariable Integer user_id){
         return ResponseEntity.status(HttpStatus.OK).body(addressService.getCustomerAddresses(user_id));
     }
 
     // get all Addresses
-    @GetMapping("/provider/get-all{user_id}")
+    @GetMapping("/provider/get-all/{user_id}")
     public ResponseEntity getProviderAddresses(@PathVariable Integer user_id){
         return ResponseEntity.status(HttpStatus.OK).body(addressService.getProviderAddresses(user_id));
     }

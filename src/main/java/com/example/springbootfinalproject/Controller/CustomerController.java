@@ -22,7 +22,7 @@ public class CustomerController {
 
 
     //display
-    @GetMapping("/display")
+    @GetMapping("/get-all")
     public ResponseEntity getAllCustomers(){
         List<Customer> Customers = customerService.getCustomer();
         return ResponseEntity.status(200).body(Customers);
@@ -31,25 +31,25 @@ public class CustomerController {
 
     //update
     // add user id
-    @PutMapping("/update/{id}")
-    public ResponseEntity updateCustomer(@Valid @RequestBody Customer Customer, @PathVariable Integer id) {
+    @PutMapping("/update/{user_id}")
+    public ResponseEntity updateCustomer(@Valid @RequestBody Customer Customer, @PathVariable Integer user_id) {
 
-        customerService.updateCustomer(id, Customer);
+        customerService.updateCustomer(user_id, Customer);
         return ResponseEntity.status(200).body("Customer is updated ");
     }
 
     //delete
     // add user id
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteCustomer(@PathVariable Integer id){
-        customerService.deleteCustomer(id);
+    @DeleteMapping("/delete/{user_id}")
+    public ResponseEntity deleteCustomer(@PathVariable Integer user_id){
+        customerService.deleteCustomer(user_id);
         return ResponseEntity.status(200).body("Customer is deleted ");
     }
 
 
 
     // get company by name
-    // add user id
+
     @GetMapping("/getCompany/{name}")
     public ResponseEntity getCompanyByName(@PathVariable String name){
         CompanyDetails serviceProvider = customerService.getCompany(name);
@@ -57,7 +57,7 @@ public class CustomerController {
     }
 
     // get company's comments by name
-    // add user id
+
     @GetMapping("/getComment/{name}")
     public ResponseEntity getCommentsByName(@PathVariable String name){
         List<Comment> comment = customerService.getComment(name);
@@ -72,9 +72,9 @@ public class CustomerController {
 
     // get order detail
     // add user id
-    @GetMapping("/getOrder/{customer_id}/{order_id}")
-    public ResponseEntity getOrder(@PathVariable Integer customer_id,@PathVariable Integer order_id){
-        Object bookingService = customerService.getOrderByID(customer_id,order_id);
+    @GetMapping("/getOrder/{user_id}/{order_id}")
+    public ResponseEntity getOrder(@PathVariable Integer user_id,@PathVariable Integer order_id){
+        Object bookingService = customerService.getOrderByID(user_id,order_id);
         return ResponseEntity.status(200).body(bookingService);
     }
 

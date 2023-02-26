@@ -90,15 +90,15 @@ public class BookingServiceService {
 
     //delete BookingService
 
-    public void deleteBookingService(Integer id,Integer userid){
-       BookingService bookingService=bookingServiceRepository.findBookingServicesById(id);
-        if(bookingService==null){
-            throw new ApiException("BookingService Not Found");
-        }else if(bookingService.getServiceProvider().getMyUser().getId()!=userid){
-            throw new ApiException("Sorry , You do not have the authority to update this order!");
-        }
-        bookingServiceRepository.delete(bookingService);
-    }
+//    public void deleteBookingService(Integer id,Integer userid){
+//       BookingService bookingService=bookingServiceRepository.findBookingServicesById(id);
+//        if(bookingService==null){
+//            throw new ApiException("BookingService Not Found");
+//        }else if(bookingService.getServiceProvider().getMyUser().getId()!=userid){
+//            throw new ApiException("Sorry , You do not have the authority to update this order!");
+//        }
+//        bookingServiceRepository.delete(bookingService);
+//    }
 
     // get all customer's orders
     public List getAllCustomerOrders(Integer userid) {

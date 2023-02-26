@@ -31,25 +31,26 @@ public class CommentController {
 
     //add Comment
     //add user id -> customer id
-    @PostMapping("/add/{customer_id}/{provider_id}")
-    public ResponseEntity addAddress(@RequestBody @Valid Comment comment,@PathVariable Integer customer_id,@PathVariable Integer provider_id){
-        commentService.addComment(comment,customer_id,provider_id);
+    @PostMapping("/add/{user_id}/{provider_id}")
+    public ResponseEntity addAddress(@RequestBody @Valid Comment comment,@PathVariable Integer user_id,@PathVariable Integer provider_id){
+        commentService.addComment(comment,user_id,provider_id);
         return ResponseEntity.status(HttpStatus.OK).body("Comment Added");
     }
+
     //update Comment
     // add user id
-    @PutMapping("/update/{id}")
-    public ResponseEntity updateComment(@RequestBody @Valid Comment comment, @PathVariable Integer id){
-        commentService.updateComment(comment,id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment Updated"));
-    }
-
-    //delete Comment
-    // add user id
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteComment(@PathVariable Integer id){
-        commentService.deleteComment(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment deleted"));
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity updateComment(@RequestBody @Valid Comment comment, @PathVariable Integer id){
+//        commentService.updateComment(comment,id,user_id);
+//        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment Updated"));
+//    }
+//
+//    //delete Comment
+//    // add user id
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity deleteComment(@PathVariable Integer id){
+//        commentService.deleteComment(id);
+//        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment deleted"));
+//    }
 
 }

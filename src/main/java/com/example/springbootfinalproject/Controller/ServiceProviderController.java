@@ -37,17 +37,17 @@ public class ServiceProviderController {
 
     //delete
     // add user id
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteProvider(@PathVariable Integer id){
-        providerService.deleteProvider(id);
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity deleteProvider(@PathVariable Integer userId){
+        providerService.deleteProvider(userId);
         return ResponseEntity.status(200).body("Provider is deleted ");
     }
 
     // get order detail
     // add user id
-    @GetMapping("/getOrder/{order_id}")
-    public ResponseEntity getOrder(@PathVariable Integer provider_id,@PathVariable Integer order_id){
-        Object bookingService = providerService.getOrderByID(provider_id,order_id);
+    @GetMapping("/getOrder/{user_id}/{order_id}")
+    public ResponseEntity getOrder(@PathVariable Integer user_id,@PathVariable Integer order_id){
+        Object bookingService = providerService.getOrderByID(user_id,order_id);
         return ResponseEntity.status(200).body(bookingService);
     }
 

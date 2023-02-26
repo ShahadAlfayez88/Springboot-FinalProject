@@ -26,10 +26,10 @@ public class AddressService {
     private final MyUserRepository myUserRepository;
 
     //get all Address - customer
-    public List<Address> getAllAddresses(Integer user_id){
-      return   addressRepository.findAll();
-    }
 
+    public List<Address> getAllAdress() {
+        return addressRepository.findAll();
+    }
     public List<Address> getCustomerAddresses(Integer userId) {
         MyUser myUser = myUserRepository.findMyUsersById(userId);
         Customer customer = customerRepository.findCustomerByMyUser_Id(userId);

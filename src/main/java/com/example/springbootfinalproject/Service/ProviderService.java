@@ -33,8 +33,8 @@ public class ProviderService {
     }
 
     // Delete
-    public void deleteProvider(Integer id) {
-        ServiceProvider oldProvider = serviceProviderRepository.findServiceProviderById(id);
+    public void deleteProvider(Integer userId) {
+        ServiceProvider oldProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
         if (oldProvider == null) {
             throw new ApiException("Id not found!!");
         }
@@ -44,9 +44,9 @@ public class ProviderService {
 
 
     // get order by id
-    public Object getOrderByID(Integer provider_id, Integer order_id) {
+    public Object getOrderByID(Integer user_id, Integer order_id) {
 
-        ServiceProvider provider = serviceProviderRepository.findServiceProviderById(provider_id);
+        ServiceProvider provider = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
 
         List<Object> details = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class ProviderService {
     //get all orders by id
     public Object getAllBookingServiceById(Integer userId) {
         MyUser myUser = myUserRepository.findMyUsersById(userId);
-        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser(myUser);
+        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
         if (myUser==null || serviceProvider == null) {
             throw new ApiException("Not Found!");
         }
