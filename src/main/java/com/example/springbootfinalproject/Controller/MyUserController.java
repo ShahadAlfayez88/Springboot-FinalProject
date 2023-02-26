@@ -47,16 +47,18 @@ public class MyUserController {
     }
 
     // update customer
-    @PutMapping("/updateCustomer/{id}")
-    public ResponseEntity updateCustomer(@Valid @RequestBody CustomerDTO customerDTO,@PathVariable Integer id){
-        myUserService.updateCustomer(customerDTO, id);
+    // add user id
+    @PutMapping("/updateCustomer/{userid}/{id}")
+    public ResponseEntity updateCustomer(@Valid @RequestBody CustomerDTO customerDTO,@PathVariable Integer id,@PathVariable Integer userid){
+        myUserService.updateCustomer(customerDTO, id,userid);
         return ResponseEntity.status(200).body("User(Customer) updated");
     }
 
     // update ServiceProvider
-    @PutMapping("/updateProvider/{id}")
-    public ResponseEntity updateProvider(@Valid @RequestBody ServiceProviderDTO serviceProviderDTO,@PathVariable Integer id){
-        myUserService.updateProvider(serviceProviderDTO, id);
+    // add user id
+    @PutMapping("/updateProvider/{userid}/{id}")
+    public ResponseEntity updateProvider(@Valid @RequestBody ServiceProviderDTO serviceProviderDTO,@PathVariable Integer id,@PathVariable Integer userid){
+        myUserService.updateProvider(serviceProviderDTO, id,userid);
         return ResponseEntity.status(200).body("User(ServiceProvider) updated");
     }
 

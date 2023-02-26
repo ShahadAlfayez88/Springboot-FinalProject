@@ -42,13 +42,15 @@ public class AddressService {
 
 
     //add Address
-    public void addAddressToCustomer(Address address, Integer user_id){
+    public void addAddressToCustomer(Address address, Integer customer_id, Integer userId){
 
-        MyUser myUser = myUserRepository.findMyUsersById(user_id);
-        Customer customer = customerRepository.findCustomerByMyUser(myUser);
+        MyUser myUser = myUserRepository.findMyUsersById(userId);
+        Customer customer = customerRepository.findCustomerById(customer_id);
 
-        if(customer==null||myUser==null){
+        if(customer==null||myUser==null||customer.getMyUser()==null){
             throw new ApiException("Not Found!");
+        }else if(customer.getMyUser().getId()!=userId){
+            throw new ApiException("Sorry , You do not have the authority to add this address!");
         }
 
         //assign address
@@ -61,8 +63,15 @@ public class AddressService {
 
     }
 
-    public void addAddressToProvider(Address address, Integer provider_id){
+    public void addAddressToProvider(Address address, Integer provider_id,  Integer userId){
         ServiceProvider ServiceProvider = serviceProviderRepository.findServiceProviderById(provider_id);
+        MyUser myUser = myUserRepository.findMyUsersById(userId);
+
+        if(ServiceProvider==null||myUser==null||ServiceProvider.getMyUser()==null){
+            throw new ApiException("Not Found!");
+        }else if(ServiceProvider.getMyUser().getId()!=userId){
+            throw new ApiException("Sorry , You do not have the authority to add this address!");
+        }
 
         //assign address
         address.setServiceProvider(ServiceProvider);
@@ -82,7 +91,7 @@ public class AddressService {
         Address oldAddress=addressRepository.findAddressById(id);
 
 
-        if(oldAddress==null || myUser==null){
+        if(oldAddress==null || myUser==null || oldAddress.getServiceProvider().getMyUser()==null){
             throw new ApiException("address or user Not Found!");
         }else if(oldAddress.getServiceProvider().getMyUser().getId()!=user_id){
             throw new ApiException("Sorry , You do not have the authority to update this address!");
@@ -107,7 +116,7 @@ public class AddressService {
         Address oldAddress=addressRepository.findAddressById(id);
 
 
-        if(oldAddress==null || myUser==null){
+        if(oldAddress==null || myUser==null || oldAddress.getCustomer().getMyUser()==null){
             throw new ApiException("address or user Not Found!");
         }else if(oldAddress.getCustomer().getMyUser().getId()!=user_id){
             throw new ApiException("Sorry , You do not have the authority to update this address!");
@@ -126,7 +135,7 @@ public class AddressService {
 
     //delete Address
 
-    public void deleteAddress(Integer id, Integer user_id){
+    public void deleteCustomerAddress(Integer id, Integer user_id){
 
        Address address=addressRepository.findAddressById(id);
        MyUser myUser = myUserRepository.findMyUsersById(user_id);
@@ -134,7 +143,21 @@ public class AddressService {
 
         if(address==null || myUser==null){
             throw new ApiException("address or user Not Found!");
-        }else if(address.getServiceProvider().getMyUser().getId()!=user_id || address.getCustomer().getMyUser().getId()!=user_id ){
+        }else if(address.getServiceProvider().getMyUser().getId()!=user_id){
+            throw new ApiException("Sorry , You do not have the authority to delete this address!");
+        }
+
+        addressRepository.delete(address);
+    }
+    public void deleteProviderAddress(Integer id, Integer user_id){
+
+        Address address=addressRepository.findAddressById(id);
+        MyUser myUser = myUserRepository.findMyUsersById(user_id);
+
+
+        if(address==null || myUser==null){
+            throw new ApiException("address or user Not Found!");
+        }else if(address.getServiceProvider().getMyUser().getId()!=user_id){
             throw new ApiException("Sorry , You do not have the authority to delete this address!");
         }
 

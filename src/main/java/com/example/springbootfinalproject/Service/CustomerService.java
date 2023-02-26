@@ -104,8 +104,8 @@ public class CustomerService {
 
     }
 
-    //get all orders by id
 
+    //get all orders by id
     public Object getAllBookingServiceById(Integer userId) {
         MyUser myUser = myUserRepository.findMyUsersById(userId);
         Customer customer= customerRepository.findCustomerByMyUser(myUser);

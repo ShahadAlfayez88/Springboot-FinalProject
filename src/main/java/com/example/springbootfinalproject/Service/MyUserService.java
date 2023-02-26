@@ -108,12 +108,23 @@ public class MyUserService {
 
 
     // Update Customer and User
-    public void updateCustomer(CustomerDTO customerDTO, Integer id){
+    public void updateCustomer(CustomerDTO customerDTO, Integer id, Integer user_id){
+
         // NewUser
+
+        Customer customer1 = customerRepository.findCustomerById(id);
         MyUser myUser = new MyUser();
 
+
+        if(customer1==null){
+            throw new ApiException("customer Not Found!");
+        }else if(customer1.getMyUser().getId()!=user_id){
+            throw new ApiException("Sorry , You do not have the authority to update this customer!");
+        }
+
+
         myUser.setRole(customerDTO.getRole()); myUser.setPassword(customerDTO.getPassword());
-        myUser.setId(id); myUser.setUsername(customerDTO.getUsername());
+        myUser.setId(id); myUser.setUsername(customer1.getMyUser().getUsername());
 
         myUserRepository.save(myUser);
 
@@ -124,7 +135,15 @@ public class MyUserService {
     }
 
     // Update Provider and User
-    public void updateProvider(ServiceProviderDTO serviceProviderDTO, Integer id){
+    public void updateProvider(ServiceProviderDTO serviceProviderDTO, Integer id,Integer user_id){
+        //current provider
+        ServiceProvider serviceProvider1 = serviceProviderRepository.findServiceProviderById(id);
+
+        if(serviceProvider1==null){
+            throw new ApiException("service Provider Not Found!");
+        }else if(serviceProvider1.getMyUser().getId()!=user_id){
+            throw new ApiException("Sorry , You do not have the authority to update this service Provider!");
+        }
         // NewUser
         MyUser myUser = new MyUser();
 

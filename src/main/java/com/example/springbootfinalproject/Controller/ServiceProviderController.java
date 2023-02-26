@@ -27,6 +27,7 @@ public class ServiceProviderController {
 
 
     //update
+    // add user id
     @PutMapping("/update/{id}")
     public ResponseEntity updateProvider(@Valid @RequestBody ServiceProvider Provider, @PathVariable Integer id) {
 
@@ -35,6 +36,7 @@ public class ServiceProviderController {
     }
 
     //delete
+    // add user id
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteProvider(@PathVariable Integer id){
         providerService.deleteProvider(id);
@@ -42,6 +44,7 @@ public class ServiceProviderController {
     }
 
     // get order detail
+    // add user id
     @GetMapping("/getOrder/{provider_id}/{order_id}")
     public ResponseEntity getOrder(@PathVariable Integer provider_id,@PathVariable Integer order_id){
         Object bookingService = providerService.getOrderByID(provider_id,order_id);
@@ -49,6 +52,7 @@ public class ServiceProviderController {
     }
 
     // get all orders in the system by user id
+    // add user id
     @GetMapping("/get-all/{user_id}")
     public ResponseEntity getAllBookingServicesByUserId(@PathVariable Integer user_id){
         return ResponseEntity.status(HttpStatus.OK).body(providerService.getAllBookingServiceById(user_id));

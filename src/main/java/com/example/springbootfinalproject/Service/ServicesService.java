@@ -112,7 +112,37 @@ public class ServicesService {
         serviceRepository.delete(services);
     }
 
+    // get services by category
 
+    public List getByCategory(String category, Integer user_id){
+        MyUser myUser = myUserRepository.findMyUsersById(user_id);
+        List<Services> services=serviceRepository.findAllByCategory(category);
+
+
+        // check user and services
+
+        if(services==null || myUser==null){
+            throw new ApiException("service or user Not Found!");
+        }
+
+        return services;
+    }
+
+    // get service by name
+
+    public Services getByName(String name, Integer user_id){
+        MyUser myUser = myUserRepository.findMyUsersById(user_id);
+        Services services=serviceRepository.findServicesByName(name);
+
+
+        // check user and services
+
+        if(services==null || myUser==null){
+            throw new ApiException("service or user Not Found!");
+        }
+
+        return services;
+    }
 
 
 }

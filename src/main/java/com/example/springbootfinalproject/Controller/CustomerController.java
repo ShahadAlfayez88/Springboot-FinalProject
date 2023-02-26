@@ -30,6 +30,7 @@ public class CustomerController {
 
 
     //update
+    // add user id
     @PutMapping("/update/{id}")
     public ResponseEntity updateCustomer(@Valid @RequestBody Customer Customer, @PathVariable Integer id) {
 
@@ -38,20 +39,17 @@ public class CustomerController {
     }
 
     //delete
+    // add user id
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteCustomer(@PathVariable Integer id){
         customerService.deleteCustomer(id);
         return ResponseEntity.status(200).body("Customer is deleted ");
     }
 
-    // get order detail
-    @GetMapping("/getOrder/{customer_id}/{order_id}")
-    public ResponseEntity getOrder(@PathVariable Integer customer_id,@PathVariable Integer order_id){
-        Object bookingService = customerService.getOrderByID(customer_id,order_id);
-        return ResponseEntity.status(200).body(bookingService);
-    }
+
 
     // get company by name
+    // add user id
     @GetMapping("/getCompany/{name}")
     public ResponseEntity getCompanyByName(@PathVariable String name){
         CompanyDetails serviceProvider = customerService.getCompany(name);
@@ -59,6 +57,7 @@ public class CustomerController {
     }
 
     // get company's comments by name
+    // add user id
     @GetMapping("/getComment/{name}")
     public ResponseEntity getCommentsByName(@PathVariable String name){
         List<Comment> comment = customerService.getComment(name);
@@ -66,10 +65,17 @@ public class CustomerController {
     }
 
     // get all orders in the system by user id
-    @GetMapping("/get-all/{user_id}")
+    @GetMapping("/get-all-orders/{user_id}")
     public ResponseEntity getAllBookingServicesByUserId(@PathVariable Integer user_id){
         return ResponseEntity.status(HttpStatus.OK).body(customerService.getAllBookingServiceById(user_id));
     }
 
+    // get order detail
+    // add user id
+    @GetMapping("/getOrder/{customer_id}/{order_id}")
+    public ResponseEntity getOrder(@PathVariable Integer customer_id,@PathVariable Integer order_id){
+        Object bookingService = customerService.getOrderByID(customer_id,order_id);
+        return ResponseEntity.status(200).body(bookingService);
+    }
 
 }

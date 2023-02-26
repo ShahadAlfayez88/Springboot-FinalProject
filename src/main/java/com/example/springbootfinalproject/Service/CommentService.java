@@ -43,6 +43,9 @@ public class CommentService {
         Customer customer = customerRepository.findCustomerById(customer_id);
 
         // check if the customer is allowed to add comment
+        if(customer==null || serviceProvider==null){
+            throw new ApiException("Not Found");
+        }
 
         for(int i = 0 ; i<customer.getBookingServices().size();i++){
 
