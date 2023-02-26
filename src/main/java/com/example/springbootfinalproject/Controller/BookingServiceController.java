@@ -34,7 +34,7 @@ public class BookingServiceController {
 
     //add  BookingService
     //add user id -> customer id
-    @PostMapping("/add/{service_id}/{provider_id}/{user_id}")
+    @PostMapping("/book/{service_id}/{provider_id}/{user_id}")
     public ResponseEntity addBookingService(@RequestBody @Valid BookingService bookingService, @PathVariable Integer service_id,@PathVariable Integer provider_id,@PathVariable Integer user_id){
         bookingServiceService.addBookingService(bookingService,service_id,user_id,provider_id);
         return ResponseEntity.status(HttpStatus.OK).body("Booking Service Done Successfully");

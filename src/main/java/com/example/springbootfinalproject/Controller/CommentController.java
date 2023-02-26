@@ -18,39 +18,38 @@ public class CommentController {
 
     // get all Comments
     @GetMapping("/get-all")
-    public ResponseEntity getAllComments(){
-        return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllComments());
+    public ResponseEntity getAllComments(Integer id){
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllComments(id));
     }
 
     //get Comment by id
-    //add user id
+
     @GetMapping("get-by-id/{id}")
     public ResponseEntity getCommentById(@PathVariable Integer id ){
         return ResponseEntity.status(HttpStatus.OK).body(commentService.getCommentById(id));
     }
 
     //add Comment
-    //add user id -> customer id
     @PostMapping("/add/{user_id}/{provider_id}")
-    public ResponseEntity addAddress(@RequestBody @Valid Comment comment,@PathVariable Integer user_id,@PathVariable Integer provider_id){
+    public ResponseEntity addComment(@RequestBody @Valid Comment comment,@PathVariable Integer user_id,@PathVariable Integer provider_id){
         commentService.addComment(comment,user_id,provider_id);
         return ResponseEntity.status(HttpStatus.OK).body("Comment Added");
     }
 
     //update Comment
     // add user id
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity updateComment(@RequestBody @Valid Comment comment, @PathVariable Integer id){
-//        commentService.updateComment(comment,id,user_id);
-//        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment Updated"));
-//    }
-//
-//    //delete Comment
-//    // add user id
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity deleteComment(@PathVariable Integer id){
-//        commentService.deleteComment(id);
-//        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment deleted"));
-//    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity updateComment(@RequestBody @Valid Comment comment, @PathVariable Integer id){
+        commentService.updateComment(comment,id);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment Updated"));
+    }
+
+    //delete Comment
+    // add user id
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteComment(@PathVariable Integer id){
+        commentService.deleteComment(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment deleted"));
+    }
 
 }

@@ -16,7 +16,7 @@ public class AddressController {
 
     // get all Addresses
 
-    @GetMapping("/customer/get-all")
+    @GetMapping("/get-all")
     public ResponseEntity getAllAddresses(){
         return ResponseEntity.status(HttpStatus.OK).body(addressService.getAllAdress());
     }
@@ -70,14 +70,14 @@ public class AddressController {
     }
 
     //delete customer Address
-    @DeleteMapping("/delete/customer/{userid}/{address_id}")
+    @DeleteMapping("/customer/delete/{userid}/{address_id}")
     public ResponseEntity deleteCustomerAddress(@PathVariable Integer address_id,@PathVariable Integer userid){
         addressService.deleteCustomerAddress(address_id,userid);
         return ResponseEntity.status(HttpStatus.OK).body("Address deleted");
     }
 
     //delete provider Address
-    @DeleteMapping("/delete/provider/{userid}/{address_id}")
+    @DeleteMapping("/provider/delete/{userid}/{address_id}")
     public ResponseEntity deleteProviderAddress(@PathVariable Integer address_id,@PathVariable Integer userid){
         addressService.deleteProviderAddress(address_id,userid);
         return ResponseEntity.status(HttpStatus.OK).body("Address deleted");

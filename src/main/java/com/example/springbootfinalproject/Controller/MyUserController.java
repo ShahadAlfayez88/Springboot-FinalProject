@@ -26,11 +26,11 @@ public class MyUserController {
     }
 
 
-    // All
-//    @PostMapping("/login")
-//    public ResponseEntity login(){
-//        return ResponseEntity.status(200).body("Logged in successfully");
-//    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(){
+        return ResponseEntity.status(200).body("Logged in successfully");
+    }
 
     // Add Customer
     @PostMapping("/customer/register")

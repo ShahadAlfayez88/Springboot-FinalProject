@@ -36,7 +36,7 @@ public class AddressService {
         if(myUser==null || customer==null){
             throw new ApiException("User Not Found!");
         }
-        return myUser.getServiceProvider().getAddress();
+        return customer.getAddress();
     }
     public List<Address> getProviderAddresses(Integer userId) {
         MyUser myUser = myUserRepository.findMyUsersById(userId);
@@ -44,7 +44,7 @@ public class AddressService {
         if(myUser==null || serviceProvider==null){
             throw new ApiException("User Not Found!");
         }
-        return myUser.getServiceProvider().getAddress();
+        return serviceProvider.getAddress();
     }
 
 

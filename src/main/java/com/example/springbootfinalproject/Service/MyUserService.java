@@ -10,7 +10,7 @@ import com.example.springbootfinalproject.Repository.CustomerRepository;
 import com.example.springbootfinalproject.Repository.MyUserRepository;
 import com.example.springbootfinalproject.Repository.ServiceProviderRepository;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,8 +46,8 @@ public class MyUserService {
         MyUser myUser = new MyUser();
         myUser.setRole(customerDTO.getRole());
         myUser.setPassword(customerDTO.getPassword());
-//        String hashedPassword=new BCryptPasswordEncoder().encode(myUser.getPassword());
-//        myUser.setPassword(hashedPassword);
+        String hashedPassword=new BCryptPasswordEncoder().encode(myUser.getPassword());
+        myUser.setPassword(hashedPassword);
         myUser.setUsername(customerDTO.getUsername());
 
         // add customer
@@ -76,8 +76,8 @@ public class MyUserService {
             MyUser myUser = new MyUser();
             myUser.setRole(serviceProviderDTO.getRole());
             myUser.setPassword(serviceProviderDTO.getPassword());
-//          String hashedPassword=new BCryptPasswordEncoder().encode(myUser.getPassword());
-//          myUser.setPassword(hashedPassword);
+          String hashedPassword=new BCryptPasswordEncoder().encode(myUser.getPassword());
+          myUser.setPassword(hashedPassword);
             myUser.setUsername(serviceProviderDTO.getUsername());
 
 
@@ -165,7 +165,7 @@ public class MyUserService {
 
         newUser.setId(id);
         newUser.setRole(oldUser.getRole());
-//        newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+        newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
 
         myUserRepository.save(newUser);
     }
