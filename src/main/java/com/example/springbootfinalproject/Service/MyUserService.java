@@ -108,11 +108,11 @@ public class MyUserService {
 
 
     // Update Customer and User
-    public void updateCustomer(CustomerDTO customerDTO, Integer id, Integer user_id){
+    public void updateCustomer(CustomerDTO customerDTO, Integer user_id){
 
         // NewUser
 
-        Customer customer1 = customerRepository.findCustomerById(id);
+        Customer customer1 = customerRepository.findCustomerByMyUser_Id(user_id);
         MyUser myUser = new MyUser();
 
 
@@ -124,20 +124,20 @@ public class MyUserService {
 
 
         myUser.setRole(customerDTO.getRole()); myUser.setPassword(customerDTO.getPassword());
-        myUser.setId(id); myUser.setUsername(customer1.getMyUser().getUsername());
+        myUser.setId(user_id); myUser.setUsername(customer1.getMyUser().getUsername());
 
         myUserRepository.save(myUser);
 
 
         // new customer
         Customer customer = new Customer(customerDTO.getId(),customerDTO.getName(),customerDTO.getEmail(),customerDTO.getPhoneNumber(),myUser,null,null,null);
-        customerService.updateCustomer(id,customer);
+        customerService.updateCustomer(user_id,customer);
     }
 
     // Update Provider and User
-    public void updateProvider(ServiceProviderDTO serviceProviderDTO, Integer id,Integer user_id){
+    public void updateProvider(ServiceProviderDTO serviceProviderDTO,Integer user_id){
         //current provider
-        ServiceProvider serviceProvider1 = serviceProviderRepository.findServiceProviderById(id);
+        ServiceProvider serviceProvider1 = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
 
         if(serviceProvider1==null){
             throw new ApiException("service Provider Not Found!");
@@ -148,14 +148,14 @@ public class MyUserService {
         MyUser myUser = new MyUser();
 
         myUser.setRole(serviceProviderDTO.getRole()); myUser.setPassword(serviceProviderDTO.getPassword());
-        myUser.setId(id); myUser.setUsername(serviceProviderDTO.getUsername());
+        myUser.setId(user_id); myUser.setUsername(serviceProvider1.getMyUser().getUsername());
 
         myUserRepository.save(myUser);
 
 
         // new provider
         ServiceProvider serviceProvider = new ServiceProvider(serviceProviderDTO.getId(), serviceProviderDTO.getName(), serviceProviderDTO.getEmail(), serviceProviderDTO.getPhoneNumber(), serviceProviderDTO.getSpecialisedAt(), serviceProviderDTO.getYearsOfExperience(), serviceProviderDTO.getCommercialRegister(),myUser,null,null,null,null);
-        providerService.updateProvider(id,serviceProvider);
+        providerService.updateProvider(user_id,serviceProvider);
     }
 
 

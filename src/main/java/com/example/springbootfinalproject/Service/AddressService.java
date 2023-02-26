@@ -25,15 +25,32 @@ public class AddressService {
 
     private final MyUserRepository myUserRepository;
 
-    //get all Address
-    public List<Address> getAllAddresses(){
-        return addressRepository.findAll();
+    //get all Address - customer
+    public List<Address> getAllAddresses(Integer user_id){
+      return   addressRepository.findAll();
+    }
+
+    public List<Address> getCustomerAddresses(Integer userId) {
+        MyUser myUser = myUserRepository.findMyUsersById(userId);
+        Customer customer = customerRepository.findCustomerByMyUser_Id(userId);
+        if(myUser==null || customer==null){
+            throw new ApiException("User Not Found!");
+        }
+        return myUser.getServiceProvider().getAddress();
+    }
+    public List<Address> getProviderAddresses(Integer userId) {
+        MyUser myUser = myUserRepository.findMyUsersById(userId);
+        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
+        if(myUser==null || serviceProvider==null){
+            throw new ApiException("User Not Found!");
+        }
+        return myUser.getServiceProvider().getAddress();
     }
 
 
     //get Address by id
-    public Address getAddressById(Integer id){
-       Address address=addressRepository.findAddressById(id);
+    public Address getAddressById(Integer user_id){
+       Address address=addressRepository.findAddressById(user_id);
         if (address==null){
             throw new ApiException("Address Not Found!");
         }
@@ -42,10 +59,10 @@ public class AddressService {
 
 
     //add Address
-    public void addAddressToCustomer(Address address, Integer customer_id, Integer userId){
+    public void addAddressToCustomer(Address address, Integer userId){
 
         MyUser myUser = myUserRepository.findMyUsersById(userId);
-        Customer customer = customerRepository.findCustomerById(customer_id);
+        Customer customer = customerRepository.findCustomerByMyUser_Id(userId);
 
         if(customer==null||myUser==null||customer.getMyUser()==null){
             throw new ApiException("Not Found!");
@@ -63,8 +80,8 @@ public class AddressService {
 
     }
 
-    public void addAddressToProvider(Address address, Integer provider_id,  Integer userId){
-        ServiceProvider ServiceProvider = serviceProviderRepository.findServiceProviderById(provider_id);
+    public void addAddressToProvider(Address address,  Integer userId){
+        ServiceProvider ServiceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
         MyUser myUser = myUserRepository.findMyUsersById(userId);
 
         if(ServiceProvider==null||myUser==null||ServiceProvider.getMyUser()==null){
@@ -163,4 +180,7 @@ public class AddressService {
 
         addressRepository.delete(address);
     }
+
+
+
 }

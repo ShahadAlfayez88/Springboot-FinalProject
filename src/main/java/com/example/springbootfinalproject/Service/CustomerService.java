@@ -39,12 +39,12 @@ public class CustomerService {
 
     // Update
 
-    public void updateCustomer(Integer id, Customer customer) {
-        Customer oldCustomer = customerRepository.findCustomerById(id);
+    public void updateCustomer(Integer user_id, Customer customer) {
+        Customer oldCustomer = customerRepository.findCustomerByMyUser_Id(user_id);
         if (oldCustomer == null) {
             throw new ApiException("Id not found!!");
         }
-        customer.setId(id);
+        customer.setId(oldCustomer.getId());
         customerRepository.save(customer);
     }
 

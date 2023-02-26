@@ -24,21 +24,21 @@ public class ServicesController {
 
     // get all Services by user id
     // add user id
-    @GetMapping("/get-all/{user_id}")
+    @GetMapping("/provider/get-all/{user_id}")
     public ResponseEntity getAllServicesById(@PathVariable Integer user_id){
         return ResponseEntity.status(HttpStatus.OK).body(serviceService.getAllServicesById(user_id));
     }
 
     //get Services by id
     // add user id
-    @GetMapping("get-by-id/{id}")
+    @GetMapping("/get-by-id/{id}")
     public ResponseEntity getServicesById(@PathVariable Integer id ){
         return ResponseEntity.status(HttpStatus.OK).body(serviceService.getServicesById(id));
     }
 
     //add  Services
     // add user id
-    @PostMapping("/add/{provider_id}")
+    @PostMapping("/add/{user_id}")
     public ResponseEntity addServices(@RequestBody @Valid Services services, @PathVariable Integer provider_id){
         serviceService.addServices(services,provider_id);
         return ResponseEntity.status(HttpStatus.OK).body("Services Added");
@@ -69,7 +69,7 @@ public class ServicesController {
 
 
     // get services by name
-// add user id
+    // add user id
     @GetMapping("get-by-name/{user_id}/{name}")
     public ResponseEntity getServicesByName(@PathVariable Integer user_id, @PathVariable String name){
         return ResponseEntity.status(HttpStatus.OK).body(serviceService.getByName(name, user_id));

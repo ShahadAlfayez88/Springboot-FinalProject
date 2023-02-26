@@ -23,12 +23,12 @@ public class ProviderService {
     }
 
     // Update
-    public void updateProvider(Integer id, ServiceProvider serviceProvider) {
-        ServiceProvider oldProvider = serviceProviderRepository.findServiceProviderById(id);
+    public void updateProvider(Integer user_id, ServiceProvider serviceProvider) {
+        ServiceProvider oldProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
         if (oldProvider == null) {
             throw new ApiException("Id not found!!");
         }
-        serviceProvider.setId(id);
+        serviceProvider.setId(oldProvider.getId());
         serviceProviderRepository.save(serviceProvider);
     }
 

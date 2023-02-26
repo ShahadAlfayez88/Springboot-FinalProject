@@ -30,7 +30,7 @@ public class CommentController {
     }
 
     //add Comment
-    //add user id
+    //add user id -> customer id
     @PostMapping("/add/{customer_id}/{provider_id}")
     public ResponseEntity addAddress(@RequestBody @Valid Comment comment,@PathVariable Integer customer_id,@PathVariable Integer provider_id){
         commentService.addComment(comment,customer_id,provider_id);

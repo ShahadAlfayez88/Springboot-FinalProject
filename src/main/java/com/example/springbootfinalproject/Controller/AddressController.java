@@ -15,29 +15,35 @@ public class AddressController {
     private final AddressService addressService;
 
     // get all Addresses
-    @GetMapping("/get-all")
-    public ResponseEntity getAllAddresses(){
-        return ResponseEntity.status(HttpStatus.OK).body(addressService.getAllAddresses());
+    @GetMapping("/customer/get-all{user_id}")
+    public ResponseEntity getCustomerAddresses(@PathVariable Integer user_id){
+        return ResponseEntity.status(HttpStatus.OK).body(addressService.getCustomerAddresses(user_id));
     }
 
-    //get Address by id
-    // add user id
+    // get all Addresses
+    @GetMapping("/provider/get-all{user_id}")
+    public ResponseEntity getProviderAddresses(@PathVariable Integer user_id){
+        return ResponseEntity.status(HttpStatus.OK).body(addressService.getProviderAddresses(user_id));
+    }
+
+
+    //add user id
     @GetMapping("get-by-id/{id}")
     public ResponseEntity getAddressById(@PathVariable Integer id ){
         return ResponseEntity.status(HttpStatus.OK).body(addressService.getAddressById(id));
     }
 
     //add  address and assign it to customer
-    @PostMapping("/customer/add/{user_id}/{customer_id}")
-    public ResponseEntity addAddressToCustomer(@RequestBody @Valid Address address, @PathVariable Integer customer_id,@PathVariable Integer user_id){
-        addressService.addAddressToCustomer(address,customer_id,user_id);
+    @PostMapping("/customer/add/{user_id}")
+    public ResponseEntity addAddressToCustomer(@RequestBody @Valid Address address,@PathVariable Integer user_id){
+        addressService.addAddressToCustomer(address,user_id);
         return ResponseEntity.status(HttpStatus.OK).body("Address Added");
     }
 
     //add Address and assign it to service provider
-    @PostMapping("/provider/add/{user_id}/{provider_id}")
-    public ResponseEntity addAddressToProvider(@RequestBody @Valid Address address, @PathVariable Integer provider_id,@PathVariable Integer user_id){
-        addressService.addAddressToProvider(address,provider_id,user_id);
+    @PostMapping("/provider/add/{user_id}")
+    public ResponseEntity addAddressToProvider(@RequestBody @Valid Address address,@PathVariable Integer user_id){
+        addressService.addAddressToProvider(address,user_id);
         return ResponseEntity.status(HttpStatus.OK).body("Address Added");
     }
 

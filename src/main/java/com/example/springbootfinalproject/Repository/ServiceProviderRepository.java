@@ -14,4 +14,6 @@ public interface ServiceProviderRepository extends JpaRepository<ServiceProvider
 
     ServiceProvider findServiceProviderByMyUser(MyUser myUser);
 
+    ServiceProvider findServiceProviderByMyUser_Id(Integer id);
+
 }

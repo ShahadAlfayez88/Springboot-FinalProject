@@ -37,7 +37,7 @@ public class BookingServiceService {
 
 
     //add BookingService
-    public void addBookingService(BookingService bookingService,Integer service_id, Integer customer_id, Integer provider_id){
+    public void addBookingService(BookingService bookingService,Integer service_id, Integer user_id, Integer provider_id){
 
         // get service
         Services services=servicesRepository.findServicesById(service_id);
@@ -46,7 +46,7 @@ public class BookingServiceService {
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderById(provider_id);
 
         // get customer
-        Customer customer = customerRepository.findCustomerById(customer_id);
+        Customer customer = customerRepository.findCustomerByMyUser_Id(user_id);
         if(services==null || serviceProvider==null ||customer==null){
             throw new ApiException("order or customer or provider Not Found!");
         }
@@ -90,10 +90,12 @@ public class BookingServiceService {
 
     //delete BookingService
 
-    public void deleteBookingService(Integer id){
+    public void deleteBookingService(Integer id,Integer userid){
        BookingService bookingService=bookingServiceRepository.findBookingServicesById(id);
         if(bookingService==null){
             throw new ApiException("BookingService Not Found");
+        }else if(bookingService.getServiceProvider().getMyUser().getId()!=userid){
+            throw new ApiException("Sorry , You do not have the authority to update this order!");
         }
         bookingServiceRepository.delete(bookingService);
     }

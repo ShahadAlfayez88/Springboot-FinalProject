@@ -45,7 +45,7 @@ public class ServiceProviderController {
 
     // get order detail
     // add user id
-    @GetMapping("/getOrder/{provider_id}/{order_id}")
+    @GetMapping("/getOrder/{order_id}")
     public ResponseEntity getOrder(@PathVariable Integer provider_id,@PathVariable Integer order_id){
         Object bookingService = providerService.getOrderByID(provider_id,order_id);
         return ResponseEntity.status(200).body(bookingService);

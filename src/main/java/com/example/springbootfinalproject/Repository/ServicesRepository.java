@@ -13,4 +13,6 @@ public interface ServicesRepository extends JpaRepository<Services,Integer> {
     List<Services> findAllByCategory(String category);
 
     Services  findServicesByName(String name);
+
+
 }
