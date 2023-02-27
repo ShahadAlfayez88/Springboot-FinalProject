@@ -31,20 +31,20 @@ public class AddressService {
         return addressRepository.findAll();
     }
     public List<Address> getCustomerAddresses(Integer userId) {
-        MyUser myUser = myUserRepository.findMyUsersById(userId);
         Customer customer = customerRepository.findCustomerByMyUser_Id(userId);
-        if(myUser==null || customer==null){
+
+        if(customer==null){
             throw new ApiException("User Not Found!");
         }
+
         if(customer.getAddress()==null){
             throw new ApiException("You dont have any address!");
         }
         return customer.getAddress();
     }
     public List<Address> getProviderAddresses(Integer userId) {
-        MyUser myUser = myUserRepository.findMyUsersById(userId);
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
-        if(myUser==null || serviceProvider==null){
+        if(serviceProvider==null){
             throw new ApiException("User Not Found!");
         }
         if(serviceProvider.getAddress()==null){
@@ -66,11 +66,9 @@ public class AddressService {
 
     //add Address
     public void addAddressToCustomer(Address address, Integer userId){
-
-        MyUser myUser = myUserRepository.findMyUsersById(userId);
         Customer customer = customerRepository.findCustomerByMyUser_Id(userId);
 
-        if(customer==null||myUser==null){
+        if(customer==null){
             throw new ApiException("Not Found!");
         }else if(customer.getMyUser().getId()!=userId){
             throw new ApiException("Sorry , You do not have the authority to add this address!");
@@ -88,9 +86,8 @@ public class AddressService {
 
     public void addAddressToProvider(Address address,  Integer userId){
         ServiceProvider ServiceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
-        MyUser myUser = myUserRepository.findMyUsersById(userId);
 
-        if(ServiceProvider==null||myUser==null){
+        if(ServiceProvider==null){
             throw new ApiException("Not Found!");
         }else if(ServiceProvider.getMyUser().getId()!=userId){
             throw new ApiException("Sorry , You do not have the authority to add this address!");
@@ -113,6 +110,7 @@ public class AddressService {
 
         Address oldAddress=addressRepository.findAddressById(id);
 
+        ServiceProvider ServiceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
 
         if(oldAddress==null || myUser==null){
             throw new ApiException("address or user Not Found!");
@@ -122,7 +120,6 @@ public class AddressService {
         if(serviceProvider==null||oldAddress.getServiceProvider().getMyUser().getId()!=user_id){
             throw new ApiException("Sorry , You do not have the authority to update this address!");
         }
-
 
         oldAddress.setId(id);
         oldAddress.setStreet(address.getStreet());

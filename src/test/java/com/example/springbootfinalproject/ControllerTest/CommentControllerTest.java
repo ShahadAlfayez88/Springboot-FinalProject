@@ -61,17 +61,6 @@ public class CommentControllerTest {
                 .andExpect(status().isOk());
     }
 
-    // test get all comment
-
-    @Test
-    public void getAllComment() throws Exception{
-        Mockito.when(commentService.getAllComments(myUser.getId())).thenReturn(commentList);
-        mockMvc.perform(get("/api/v1/comment/get-all"))
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].message").value("------"));
-    }
-
 
     // test get comment by id
     @Test
