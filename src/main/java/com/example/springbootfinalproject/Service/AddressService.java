@@ -36,6 +36,9 @@ public class AddressService {
         if(myUser==null || customer==null){
             throw new ApiException("User Not Found!");
         }
+        if(customer.getAddress()==null){
+            throw new ApiException("You dont have any address!");
+        }
         return customer.getAddress();
     }
     public List<Address> getProviderAddresses(Integer userId) {
@@ -43,6 +46,9 @@ public class AddressService {
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
         if(myUser==null || serviceProvider==null){
             throw new ApiException("User Not Found!");
+        }
+        if(serviceProvider.getAddress()==null){
+            throw new ApiException("You dont have any address!");
         }
         return serviceProvider.getAddress();
     }
@@ -64,7 +70,7 @@ public class AddressService {
         MyUser myUser = myUserRepository.findMyUsersById(userId);
         Customer customer = customerRepository.findCustomerByMyUser_Id(userId);
 
-        if(customer==null||myUser==null||customer.getMyUser()==null){
+        if(customer==null||myUser==null){
             throw new ApiException("Not Found!");
         }else if(customer.getMyUser().getId()!=userId){
             throw new ApiException("Sorry , You do not have the authority to add this address!");
@@ -84,7 +90,7 @@ public class AddressService {
         ServiceProvider ServiceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
         MyUser myUser = myUserRepository.findMyUsersById(userId);
 
-        if(ServiceProvider==null||myUser==null||ServiceProvider.getMyUser()==null){
+        if(ServiceProvider==null||myUser==null){
             throw new ApiException("Not Found!");
         }else if(ServiceProvider.getMyUser().getId()!=userId){
             throw new ApiException("Sorry , You do not have the authority to add this address!");
@@ -108,9 +114,12 @@ public class AddressService {
         Address oldAddress=addressRepository.findAddressById(id);
 
 
-        if(oldAddress==null || myUser==null || oldAddress.getServiceProvider().getMyUser()==null){
+        if(oldAddress==null || myUser==null){
             throw new ApiException("address or user Not Found!");
-        }else if(oldAddress.getServiceProvider().getMyUser().getId()!=user_id){
+        }
+        ServiceProvider serviceProvider = oldAddress.getServiceProvider();
+
+        if(serviceProvider==null||oldAddress.getServiceProvider().getMyUser().getId()!=user_id){
             throw new ApiException("Sorry , You do not have the authority to update this address!");
         }
 
@@ -132,10 +141,13 @@ public class AddressService {
 
         Address oldAddress=addressRepository.findAddressById(id);
 
-
-        if(oldAddress==null || myUser==null || oldAddress.getCustomer().getMyUser()==null){
+        if(oldAddress==null || myUser==null){
             throw new ApiException("address or user Not Found!");
-        }else if(oldAddress.getCustomer().getMyUser().getId()!=user_id){
+        }
+
+        Customer customer =oldAddress.getCustomer();
+
+        if(customer==null || oldAddress.getCustomer().getMyUser().getId()!=user_id){
             throw new ApiException("Sorry , You do not have the authority to update this address!");
         }
 
@@ -160,7 +172,10 @@ public class AddressService {
 
         if(address==null || myUser==null){
             throw new ApiException("address or user Not Found!");
-        }else if(address.getServiceProvider().getMyUser().getId()!=user_id){
+        }
+        Customer customer =address.getCustomer();
+
+        if(customer==null||address.getCustomer().getMyUser().getId()!=user_id){
             throw new ApiException("Sorry , You do not have the authority to delete this address!");
         }
 
@@ -172,10 +187,14 @@ public class AddressService {
         MyUser myUser = myUserRepository.findMyUsersById(user_id);
 
 
+
         if(address==null || myUser==null){
             throw new ApiException("address or user Not Found!");
-        }else if(address.getServiceProvider().getMyUser().getId()!=user_id){
-            throw new ApiException("Sorry , You do not have the authority to delete this address!");
+        }
+        ServiceProvider serviceProvider = address.getServiceProvider();
+
+        if(serviceProvider==null||address.getServiceProvider().getMyUser().getId()!=user_id){
+            throw new ApiException("Sorry , You do not have the authority to update this address!");
         }
 
         addressRepository.delete(address);

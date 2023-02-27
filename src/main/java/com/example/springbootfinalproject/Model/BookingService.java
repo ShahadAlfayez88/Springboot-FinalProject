@@ -19,7 +19,6 @@ public class BookingService {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "total price Should Not Be Empty ")
     private Double totalPrice;
 
     Date dateReceived=new Date();

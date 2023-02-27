@@ -1,11 +1,13 @@
 package com.example.springbootfinalproject.Controller;
 
 import com.example.springbootfinalproject.Model.Address;
+import com.example.springbootfinalproject.Model.MyUser;
 import com.example.springbootfinalproject.Service.AddressService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,15 +24,15 @@ public class AddressController {
     }
 
 
-    @GetMapping("/customer/get-all/{user_id}")
-    public ResponseEntity getCustomerAddresses(@PathVariable Integer user_id){
-        return ResponseEntity.status(HttpStatus.OK).body(addressService.getCustomerAddresses(user_id));
+    @GetMapping("/customer/get-all")
+    public ResponseEntity getCustomerAddresses(@AuthenticationPrincipal MyUser auth){
+        return ResponseEntity.status(HttpStatus.OK).body(addressService.getCustomerAddresses(auth.getId()));
     }
 
     // get all Addresses
-    @GetMapping("/provider/get-all/{user_id}")
-    public ResponseEntity getProviderAddresses(@PathVariable Integer user_id){
-        return ResponseEntity.status(HttpStatus.OK).body(addressService.getProviderAddresses(user_id));
+    @GetMapping("/provider/get-all")
+    public ResponseEntity getProviderAddresses(@AuthenticationPrincipal MyUser auth){
+        return ResponseEntity.status(HttpStatus.OK).body(addressService.getProviderAddresses(auth.getId()));
     }
 
 
@@ -41,45 +43,45 @@ public class AddressController {
     }
 
     //add  address and assign it to customer
-    @PostMapping("/customer/add/{user_id}")
-    public ResponseEntity addAddressToCustomer(@RequestBody @Valid Address address,@PathVariable Integer user_id){
-        addressService.addAddressToCustomer(address,user_id);
+    @PostMapping("/customer/add")
+    public ResponseEntity addAddressToCustomer(@RequestBody @Valid Address address,@AuthenticationPrincipal MyUser auth){
+        addressService.addAddressToCustomer(address,auth.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Address Added");
     }
 
     //add Address and assign it to service provider
-    @PostMapping("/provider/add/{user_id}")
-    public ResponseEntity addAddressToProvider(@RequestBody @Valid Address address,@PathVariable Integer user_id){
-        addressService.addAddressToProvider(address,user_id);
+    @PostMapping("/provider/add")
+    public ResponseEntity addAddressToProvider(@RequestBody @Valid Address address,@AuthenticationPrincipal MyUser auth){
+        addressService.addAddressToProvider(address,auth.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Address Added");
     }
 
 
     //update customer Address
-    @PutMapping("/customer/update/{userid}/{id}")
-    public ResponseEntity updateCustomerAddress(@RequestBody @Valid Address address, @PathVariable Integer userid,@PathVariable Integer id){
-        addressService.updateCustomerAddress(address,userid,id);
+    @PutMapping("/customer/update/{id}")
+    public ResponseEntity updateCustomerAddress(@RequestBody @Valid Address address,@AuthenticationPrincipal MyUser auth,@PathVariable Integer id){
+        addressService.updateCustomerAddress(address, auth.getId(), id);
         return ResponseEntity.status(HttpStatus.OK).body("Address Updated");
     }
 
     //update provider Address
-    @PutMapping("/provider/update/{userid}/{id}")
-    public ResponseEntity updateProviderAddress(@RequestBody @Valid Address address, @PathVariable Integer userid,@PathVariable Integer id){
-        addressService.updateProviderAddress(address,userid,id);
+    @PutMapping("/provider/update/{id}")
+    public ResponseEntity updateProviderAddress(@RequestBody @Valid Address address, @AuthenticationPrincipal MyUser auth,@PathVariable Integer id){
+        addressService.updateProviderAddress(address,auth.getId(),id);
         return ResponseEntity.status(HttpStatus.OK).body("Address Updated");
     }
 
     //delete customer Address
-    @DeleteMapping("/customer/delete/{userid}/{address_id}")
-    public ResponseEntity deleteCustomerAddress(@PathVariable Integer address_id,@PathVariable Integer userid){
-        addressService.deleteCustomerAddress(address_id,userid);
+    @DeleteMapping("/customer/delete/{address_id}")
+    public ResponseEntity deleteCustomerAddress(@PathVariable Integer address_id,@AuthenticationPrincipal MyUser auth){
+        addressService.deleteCustomerAddress(address_id, auth.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Address deleted");
     }
 
     //delete provider Address
-    @DeleteMapping("/provider/delete/{userid}/{address_id}")
-    public ResponseEntity deleteProviderAddress(@PathVariable Integer address_id,@PathVariable Integer userid){
-        addressService.deleteProviderAddress(address_id,userid);
+    @DeleteMapping("/provider/delete/{address_id}")
+    public ResponseEntity deleteProviderAddress(@PathVariable Integer address_id,@AuthenticationPrincipal MyUser auth){
+        addressService.deleteProviderAddress(address_id,auth.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Address deleted");
     }
 

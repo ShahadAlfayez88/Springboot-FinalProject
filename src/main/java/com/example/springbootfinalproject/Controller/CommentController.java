@@ -3,11 +3,13 @@ package com.example.springbootfinalproject.Controller;
 import com.example.springbootfinalproject.Exception.ApiException;
 import com.example.springbootfinalproject.Model.Address;
 import com.example.springbootfinalproject.Model.Comment;
+import com.example.springbootfinalproject.Model.MyUser;
 import com.example.springbootfinalproject.Service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,11 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
 
-    // get all Comments
-    @GetMapping("/get-all")
-    public ResponseEntity getAllComments(Integer id){
-        return ResponseEntity.status(HttpStatus.OK).body(commentService.getAllComments(id));
-    }
 
     //get Comment by id
 
@@ -30,9 +27,9 @@ public class CommentController {
     }
 
     //add Comment
-    @PostMapping("/add/{user_id}/{provider_id}")
-    public ResponseEntity addComment(@RequestBody @Valid Comment comment,@PathVariable Integer user_id,@PathVariable Integer provider_id){
-        commentService.addComment(comment,user_id,provider_id);
+    @PostMapping("/add/{provider_id}")
+    public ResponseEntity addComment(@RequestBody @Valid Comment comment, @AuthenticationPrincipal MyUser auth, @PathVariable Integer provider_id){
+        commentService.addComment(comment,auth.getId(),provider_id);
         return ResponseEntity.status(HttpStatus.OK).body("Comment Added");
     }
 

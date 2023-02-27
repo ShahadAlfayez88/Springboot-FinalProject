@@ -1,11 +1,15 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.DTO.ServiceProviderDTO;
+import com.example.springbootfinalproject.Model.MyUser;
 import com.example.springbootfinalproject.Model.ServiceProvider;
+import com.example.springbootfinalproject.Service.MyUserService;
 import com.example.springbootfinalproject.Service.ProviderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +20,6 @@ import java.util.List;
 public class ServiceProviderController {
     
     private final ProviderService providerService;
-
 
     //display
     @GetMapping("/display")
@@ -45,17 +48,17 @@ public class ServiceProviderController {
 
     // get order detail
     // add user id
-    @GetMapping("/getOrder/{user_id}/{order_id}")
-    public ResponseEntity getOrder(@PathVariable Integer user_id,@PathVariable Integer order_id){
-        Object bookingService = providerService.getOrderByID(user_id,order_id);
+    @GetMapping("/getOrder/{order_id}")
+    public ResponseEntity getOrder(@AuthenticationPrincipal MyUser auth, @PathVariable Integer order_id){
+        Object bookingService = providerService.getOrderByID(auth.getId(),order_id);
         return ResponseEntity.status(200).body(bookingService);
     }
 
     // get all orders in the system by user id
     // add user id
-    @GetMapping("/get-all/{user_id}")
-    public ResponseEntity getAllBookingServicesByUserId(@PathVariable Integer user_id){
-        return ResponseEntity.status(HttpStatus.OK).body(providerService.getAllBookingServiceById(user_id));
+    @GetMapping("/get-all")
+    public ResponseEntity getAllBookingServicesByUserId(@AuthenticationPrincipal MyUser auth){
+        return ResponseEntity.status(HttpStatus.OK).body(providerService.getAllBookingServiceById(auth.getId()));
     }
 
 

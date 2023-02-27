@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,11 @@ public class MyUserController {
         return ResponseEntity.status(200).body("Logged in successfully");
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity logout(){
+        return ResponseEntity.status(200).body("Logged out successfully");
+    }
+
     // Add Customer
     @PostMapping("/customer/register")
     public ResponseEntity registerCustomer(@Valid @RequestBody CustomerDTO customerDTO){
@@ -48,17 +54,17 @@ public class MyUserController {
 
     // update customer
     // add user id and change
-    @PutMapping("/updateCustomer/{userid}")
-    public ResponseEntity updateCustomer(@Valid @RequestBody CustomerDTO customerDTO,@PathVariable Integer userid){
-        myUserService.updateCustomer(customerDTO,userid);
+    @PutMapping("/updateCustomer")
+    public ResponseEntity updateCustomer(@Valid @RequestBody CustomerDTO customerDTO,@AuthenticationPrincipal MyUser auth){
+        myUserService.updateCustomer(customerDTO,auth.getId());
         return ResponseEntity.status(200).body("User(Customer) updated");
     }
 
     // update ServiceProvider
     // add user id
-    @PutMapping("/updateProvider/{userid}")
-    public ResponseEntity updateProvider(@Valid @RequestBody ServiceProviderDTO serviceProviderDTO,@PathVariable Integer userid){
-        myUserService.updateProvider(serviceProviderDTO,userid);
+    @PutMapping("/updateProvider")
+    public ResponseEntity updateProvider(@Valid @RequestBody ServiceProviderDTO serviceProviderDTO,@AuthenticationPrincipal MyUser auth){
+        myUserService.updateProvider(serviceProviderDTO,auth.getId());
         return ResponseEntity.status(200).body("User(ServiceProvider) updated");
     }
 

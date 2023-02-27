@@ -21,14 +21,14 @@ public class CommentService {
 
     private final ServiceProviderRepository serviceProviderRepository;
 
-    //get all Comments
-    public List<Comment> getAllComments(Integer UserId){
-        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(UserId);
-        if (serviceProvider==null){
-            throw new ApiException("serviceProvider Not Found!");
-        }
-        return serviceProvider.getComments();
-    }
+//    //get all Comments
+//    public List<Comment> getAllComments(Integer UserId){
+//        ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(UserId);
+//        if (serviceProvider==null){
+//            throw new ApiException("serviceProvider Not Found!");
+//        }
+//        return serviceProvider.getComments();
+//    }
 
     //get Comment by id
         public Comment getCommentById(Integer id){

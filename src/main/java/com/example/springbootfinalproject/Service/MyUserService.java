@@ -123,7 +123,10 @@ public class MyUserService {
         }
 
 
-        myUser.setRole(customerDTO.getRole()); myUser.setPassword(customerDTO.getPassword());
+        myUser.setRole(customerDTO.getRole());
+        myUser.setPassword(customerDTO.getPassword());
+        String hashedPassword=new BCryptPasswordEncoder().encode(myUser.getPassword());
+        myUser.setPassword(hashedPassword);
         myUser.setId(user_id); myUser.setUsername(customer1.getMyUser().getUsername());
 
         myUserRepository.save(myUser);
@@ -147,7 +150,12 @@ public class MyUserService {
         // NewUser
         MyUser myUser = new MyUser();
 
-        myUser.setRole(serviceProviderDTO.getRole()); myUser.setPassword(serviceProviderDTO.getPassword());
+        myUser.setRole(serviceProviderDTO.getRole());
+        myUser.setPassword(serviceProviderDTO.getPassword());
+
+        String hashedPassword=new BCryptPasswordEncoder().encode(myUser.getPassword());
+        myUser.setPassword(hashedPassword);
+
         myUser.setId(user_id); myUser.setUsername(serviceProvider1.getMyUser().getUsername());
 
         myUserRepository.save(myUser);

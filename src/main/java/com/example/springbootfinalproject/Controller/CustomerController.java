@@ -1,9 +1,12 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.DTO.CustomerDTO;
 import com.example.springbootfinalproject.Model.*;
 import com.example.springbootfinalproject.Service.CustomerService;
+import com.example.springbootfinalproject.Service.MyUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -65,16 +68,16 @@ public class CustomerController {
     }
 
     // get all orders in the system by user id
-    @GetMapping("/get-all-orders/{user_id}")
-    public ResponseEntity getAllBookingServicesByUserId(@PathVariable Integer user_id){
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.getAllBookingServiceById(user_id));
+    @GetMapping("/get-all-orders")
+    public ResponseEntity getAllBookingServicesByUserId( @AuthenticationPrincipal MyUser auth){
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.getAllBookingServiceById(auth.getId()));
     }
 
     // get order detail
     // add user id
-    @GetMapping("/getOrder/{user_id}/{order_id}")
-    public ResponseEntity getOrder(@PathVariable Integer user_id,@PathVariable Integer order_id){
-        Object bookingService = customerService.getOrderByID(user_id,order_id);
+    @GetMapping("/getOrder/{order_id}")
+    public ResponseEntity getOrder( @AuthenticationPrincipal MyUser auth,@PathVariable Integer order_id){
+        Object bookingService = customerService.getOrderByID(auth.getId(),order_id);
         return ResponseEntity.status(200).body(bookingService);
     }
 

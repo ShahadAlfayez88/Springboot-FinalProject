@@ -35,7 +35,6 @@ public class Services {
             "7-Carpentry\n"+
             "8-Blacksmithing")
     private String category;
-    //لازم نضيف العلاقات
     @NotNull(message = "Price Should not be Empty")
     @Positive
     private Integer price;

@@ -28,7 +28,7 @@ public class MyUser implements UserDetails{
     @Column(nullable = false)
     private String password;
 
-    @Pattern(regexp = "(Customer|Provider)", message = "Role must be in Customer or Service Provider only")
+    @Pattern(regexp = "(Customer||Provider)", message = "Role must be in Customer or Service Provider only")
     @Column(columnDefinition = "varchar(10) not null check (role='Customer' or role='Provider')")
     private String role;
     @OneToOne(mappedBy = "myUser", cascade = CascadeType.ALL)
