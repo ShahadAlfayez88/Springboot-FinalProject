@@ -141,18 +141,23 @@ public class ServicesService {
 
     // get service by name
 
-    public ViewServices getByName(String name){
+    public List<ViewServices> getByName(String name){
 
-        Services services=serviceRepository.findServicesByName(name);
+        List<Services> services=serviceRepository.findAllByName(name);
+        List<ViewServices> viewServices = new ArrayList<>();
 
+        for (int i =0; i<services.size();i++){
+            Services services1 = services.get(i);
+            ViewServices viewService1 = new ViewServices(services1.getName(),services1.getDescription(),services1.getCategory(),services1.getPrice(),services1.getFollowingPeriod());
+            viewServices.add(viewService1);
+        }
         // check user and services
 
         if(services==null){
-            throw new ApiException("service is Not Found!");
+            throw new ApiException("service Not Found!");
         }
-            ViewServices viewService1 = new ViewServices(services.getName(),services.getDescription(),services.getCategory(),services.getPrice(),services.getFollowingPeriod());
 
-        return viewService1;
+        return viewServices;
     }
 
 

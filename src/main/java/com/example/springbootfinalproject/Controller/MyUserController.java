@@ -27,7 +27,6 @@ public class MyUserController {
     }
 
 
-
     @PostMapping("/login")
     public ResponseEntity login(){
         return ResponseEntity.status(200).body("Logged in successfully");
