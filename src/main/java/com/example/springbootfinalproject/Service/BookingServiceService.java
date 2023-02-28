@@ -48,7 +48,7 @@ public class BookingServiceService {
         // get customer
         Customer customer = customerRepository.findCustomerByMyUser_Id(user_id);
         if(services==null || serviceProvider==null ||customer==null){
-            throw new ApiException("order or customer or provider Not Found!");
+            throw new ApiException("service or provider Not Found!");
         }
 
         bookingService.setServiceProvider(serviceProvider);
@@ -74,7 +74,7 @@ public class BookingServiceService {
         MyUser myUser = myUserRepository.findMyUsersById(userid);
 
         if(NewbookingService==null || myUser==null){
-            throw new ApiException("order or user Not Found!");
+            throw new ApiException("order Not Found!");
         }else if(NewbookingService.getServiceProvider().getMyUser().getId()!=userid){
             throw new ApiException("Sorry , You do not have the authority to update this order!");
         }
@@ -105,7 +105,7 @@ public class BookingServiceService {
         MyUser myUser = myUserRepository.findMyUsersById(userid);
         Customer customer = customerRepository.findCustomerByMyUser(myUser);
         if(myUser==null || customer==null){
-            throw new ApiException("order or user Not Found!");
+            throw new ApiException("order Not Found!");
         }else if(customer.getMyUser().getId()!=userid){
             throw new ApiException("Sorry , You do not have the authority to view this order!");
         }
@@ -119,7 +119,7 @@ public class BookingServiceService {
         MyUser myUser = myUserRepository.findMyUsersById(userid);
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser(myUser);
         if(myUser==null || serviceProvider==null){
-            throw new ApiException("order or user Not Found!");
+            throw new ApiException("order Not Found!");
         }else if(serviceProvider.getMyUser().getId()!=userid){
             throw new ApiException("Sorry , You do not have the authority to view this order!");
         }
