@@ -22,7 +22,6 @@ public class BookingService {
     private Double totalPrice;
 
     Date dateReceived=new Date();
-    @NotNull(message = "status Should Not Be Empty ")
     @Pattern(regexp = "^(new||inProgress||completed)$",message = "status should be :new or inProgress or completed only ")
     private  String status;
     @NotNull(message = "availability Time Should Not Be Empty ")
