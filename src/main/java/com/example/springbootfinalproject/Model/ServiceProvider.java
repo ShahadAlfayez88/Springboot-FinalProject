@@ -2,10 +2,7 @@ package com.example.springbootfinalproject.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.List;
@@ -31,7 +28,15 @@ public class ServiceProvider {
 
     @NotNull(message = "phone Number Should not be Empty")
     private String phoneNumber;
-
+    @Pattern(regexp = "^(Plumbing||Electricity||Moving Furniture||Conditioning||Paints||General Cleaning||Carpentry||Blacksmithing)$",message = "Category should be :\n" +
+            "1-Plumbing\n" +
+            "2-Electricity\n" +
+            "3-Moving Furniture" +
+            "4-Conditioning\n" +
+            "5-Paints\n" +
+            "6-General Cleaning\n"+
+            "7-Carpentry\n"+
+            "8-Blacksmithing")
     @NotNull(message = "Specialised At Should not be Empty")
     private String SpecialisedAt;
 
