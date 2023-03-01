@@ -1,5 +1,6 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.ApiResponse;
 import com.example.springbootfinalproject.Exception.ApiException;
 import com.example.springbootfinalproject.Model.MyUser;
 import com.example.springbootfinalproject.Model.Services;
@@ -42,21 +43,21 @@ public class ServicesController {
     @PostMapping("/add")
     public ResponseEntity addServices(@RequestBody @Valid Services services,@AuthenticationPrincipal MyUser auth){
         serviceService.addServices(services,auth.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Services Added");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Services Added"));
     }
 
     //update Services
     @PutMapping("/update/{id}")
     public ResponseEntity updateServices(@RequestBody @Valid Services services,@AuthenticationPrincipal MyUser auth,@PathVariable Integer id){
         serviceService.updateServices(services,auth.getId(),id);
-        return ResponseEntity.status(HttpStatus.OK).body("Services Updated");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Services Updated"));
     }
 
     //delete Services
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteServices(@PathVariable Integer id, @AuthenticationPrincipal MyUser auth){
         serviceService.deleteServices(id,auth.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Services deleted");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Services deleted"));
     }
 
     // get services by category

@@ -1,5 +1,6 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.ApiResponse;
 import com.example.springbootfinalproject.DTO.CustomerDTO;
 import com.example.springbootfinalproject.Model.*;
 import com.example.springbootfinalproject.Service.CustomerService;
@@ -38,7 +39,7 @@ public class CustomerController {
     public ResponseEntity updateCustomer(@Valid @RequestBody Customer Customer, @PathVariable Integer user_id) {
 
         customerService.updateCustomer(user_id, Customer);
-        return ResponseEntity.status(200).body("Customer is updated ");
+        return ResponseEntity.status(200).body(new ApiResponse("Customer is updated "));
     }
 
     //delete
@@ -46,7 +47,7 @@ public class CustomerController {
     @DeleteMapping("/delete/{user_id}")
     public ResponseEntity deleteCustomer(@PathVariable Integer user_id){
         customerService.deleteCustomer(user_id);
-        return ResponseEntity.status(200).body("Customer is deleted ");
+        return ResponseEntity.status(200).body(new ApiResponse("Customer is deleted"));
     }
 
 

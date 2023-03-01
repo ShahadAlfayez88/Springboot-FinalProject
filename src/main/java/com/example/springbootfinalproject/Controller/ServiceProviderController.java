@@ -1,5 +1,6 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.ApiResponse;
 import com.example.springbootfinalproject.DTO.ServiceProviderDTO;
 import com.example.springbootfinalproject.Model.MyUser;
 import com.example.springbootfinalproject.Model.ServiceProvider;
@@ -35,7 +36,7 @@ public class ServiceProviderController {
     public ResponseEntity updateProvider(@Valid @RequestBody ServiceProvider Provider, @PathVariable Integer id) {
 
         providerService.updateProvider(id, Provider);
-        return ResponseEntity.status(200).body("Provider is updated ");
+        return ResponseEntity.status(200).body(new ApiResponse("Provider is updated "));
     }
 
     //delete
@@ -43,7 +44,7 @@ public class ServiceProviderController {
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity deleteProvider(@PathVariable Integer userId){
         providerService.deleteProvider(userId);
-        return ResponseEntity.status(200).body("Provider is deleted ");
+        return ResponseEntity.status(200).body(new ApiResponse("Provider is deleted "));
     }
 
     // get order detail

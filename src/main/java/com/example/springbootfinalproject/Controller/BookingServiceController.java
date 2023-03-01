@@ -1,5 +1,6 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.ApiResponse;
 import com.example.springbootfinalproject.Exception.ApiException;
 import com.example.springbootfinalproject.Model.Address;
 import com.example.springbootfinalproject.Model.BookingService;
@@ -36,14 +37,14 @@ public class BookingServiceController {
     @PostMapping("/book/{service_id}/{provider_id}")
     public ResponseEntity addBookingService(@RequestBody @Valid BookingService bookingService, @PathVariable Integer service_id,@PathVariable Integer provider_id, @AuthenticationPrincipal MyUser auth){
         bookingServiceService.addBookingService(bookingService,service_id,auth.getId(),provider_id);
-        return ResponseEntity.status(HttpStatus.OK).body("Booking Service Done Successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Booking Service Done Successfully"));
     }
 
     //change order Status
     @PutMapping("/changeStatus/{order_id}")
     public ResponseEntity updateBookingService(@RequestBody @Valid BookingService bookingService, @PathVariable Integer order_id, @AuthenticationPrincipal MyUser auth){
         bookingServiceService.updateBookingService(bookingService,order_id,auth.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Updated Done");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Updated Done"));
     }
 
 //    //delete BookingService

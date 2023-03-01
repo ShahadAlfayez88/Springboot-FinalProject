@@ -1,5 +1,6 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.ApiResponse;
 import com.example.springbootfinalproject.Model.Address;
 import com.example.springbootfinalproject.Model.MyUser;
 import com.example.springbootfinalproject.Service.AddressService;
@@ -46,14 +47,14 @@ public class AddressController {
     @PostMapping("/customer/add")
     public ResponseEntity addAddressToCustomer(@RequestBody @Valid Address address,@AuthenticationPrincipal MyUser auth){
         addressService.addAddressToCustomer(address,auth.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Address Added");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Address Added"));
     }
 
     //add Address and assign it to service provider
     @PostMapping("/provider/add")
     public ResponseEntity addAddressToProvider(@RequestBody @Valid Address address,@AuthenticationPrincipal MyUser auth){
         addressService.addAddressToProvider(address,auth.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Address Added");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Address Added"));
     }
 
 
@@ -61,28 +62,28 @@ public class AddressController {
     @PutMapping("/customer/update/{id}")
     public ResponseEntity updateCustomerAddress(@RequestBody @Valid Address address,@AuthenticationPrincipal MyUser auth,@PathVariable Integer id){
         addressService.updateCustomerAddress(address, auth.getId(), id);
-        return ResponseEntity.status(HttpStatus.OK).body("Address Updated");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Address Updated"));
     }
 
     //update provider Address
     @PutMapping("/provider/update/{id}")
     public ResponseEntity updateProviderAddress(@RequestBody @Valid Address address, @AuthenticationPrincipal MyUser auth,@PathVariable Integer id){
         addressService.updateProviderAddress(address,auth.getId(),id);
-        return ResponseEntity.status(HttpStatus.OK).body("Address Updated");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Address Updated"));
     }
 
     //delete customer Address
     @DeleteMapping("/customer/delete/{address_id}")
     public ResponseEntity deleteCustomerAddress(@PathVariable Integer address_id,@AuthenticationPrincipal MyUser auth){
         addressService.deleteCustomerAddress(address_id, auth.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Address deleted");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Address deleted"));
     }
 
     //delete provider Address
     @DeleteMapping("/provider/delete/{address_id}")
     public ResponseEntity deleteProviderAddress(@PathVariable Integer address_id,@AuthenticationPrincipal MyUser auth){
         addressService.deleteProviderAddress(address_id,auth.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Address deleted");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Address deleted"));
     }
 
 }

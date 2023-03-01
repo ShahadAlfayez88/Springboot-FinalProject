@@ -26,7 +26,7 @@ public class ProviderService {
     public void updateProvider(Integer user_id, ServiceProvider serviceProvider) {
         ServiceProvider oldProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
         if (oldProvider == null) {
-            throw new ApiException("Id not found!!");
+            throw new ApiException("ServiceProvider not found!!");
         }
         serviceProvider.setId(oldProvider.getId());
         serviceProviderRepository.save(serviceProvider);
@@ -69,7 +69,7 @@ public class ProviderService {
         MyUser myUser = myUserRepository.findMyUsersById(userId);
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
         if (myUser==null || serviceProvider == null) {
-            throw new ApiException("Not Found!");
+            throw new ApiException("ServiceProvider Not Found!");
         }
 
         return serviceProvider.getBookingServices();

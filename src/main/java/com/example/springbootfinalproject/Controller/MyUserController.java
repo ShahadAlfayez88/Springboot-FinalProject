@@ -1,5 +1,6 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.ApiResponse;
 import com.example.springbootfinalproject.DTO.CustomerDTO;
 import com.example.springbootfinalproject.DTO.ServiceProviderDTO;
 import com.example.springbootfinalproject.Model.MyUser;
@@ -41,14 +42,14 @@ public class MyUserController {
     @PostMapping("/customer/register")
     public ResponseEntity registerCustomer(@Valid @RequestBody CustomerDTO customerDTO){
         myUserService.addCustomer(customerDTO);
-        return ResponseEntity.status(200).body("User(Customer) Created");
+        return ResponseEntity.status(200).body(new ApiResponse("User Customer have been Created"));
     }
 
     // Add Provider
     @PostMapping("/serviceProvider/register")
     public ResponseEntity registerServiceProvider(@Valid @RequestBody ServiceProviderDTO serviceProviderDTO){
         myUserService.addServiceProvider(serviceProviderDTO);
-        return ResponseEntity.status(200).body("User(ServiceProvider) Created");
+        return ResponseEntity.status(200).body(new ApiResponse("User ServiceProvider have been Created"));
     }
 
     // update customer
@@ -56,7 +57,7 @@ public class MyUserController {
     @PutMapping("/updateCustomer")
     public ResponseEntity updateCustomer(@Valid @RequestBody CustomerDTO customerDTO,@AuthenticationPrincipal MyUser auth){
         myUserService.updateCustomer(customerDTO,auth.getId());
-        return ResponseEntity.status(200).body("User(Customer) updated");
+        return ResponseEntity.status(200).body(new ApiResponse("User Customer have been updated"));
     }
 
     // update ServiceProvider
@@ -64,7 +65,7 @@ public class MyUserController {
     @PutMapping("/updateProvider")
     public ResponseEntity updateProvider(@Valid @RequestBody ServiceProviderDTO serviceProviderDTO,@AuthenticationPrincipal MyUser auth){
         myUserService.updateProvider(serviceProviderDTO,auth.getId());
-        return ResponseEntity.status(200).body("User(ServiceProvider) updated");
+        return ResponseEntity.status(200).body(new ApiResponse("User ServiceProvider have been updated"));
     }
 
 

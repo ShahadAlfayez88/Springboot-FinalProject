@@ -41,7 +41,7 @@ public class ServicesService {
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
 
         if(serviceProvider==null){
-            throw new ApiException("Not Found!");
+            throw new ApiException("Service Provider Not Found!");
         }
 
         return serviceProvider.getServices();
@@ -65,7 +65,7 @@ public class ServicesService {
         ServiceProvider serviceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
 
         if(serviceProvider==null||myUser==null){
-            throw new ApiException("Not Found!");
+            throw new ApiException("Service Provider Not Found!");
         }
 
         //assign service
@@ -87,7 +87,7 @@ public class ServicesService {
         // check user and provider
 
            if(oldServices==null || myUser==null){
-               throw new ApiException("service or user Not Found!");
+               throw new ApiException("Service Not Found!");
            }else if(oldServices.getServiceProvider().getMyUser().getId()!=user_id){
                throw new ApiException("Sorry , You do not have the authority to update this Service!");
            }
@@ -111,7 +111,7 @@ public class ServicesService {
         // check user and provider
 
         if(services==null || myUser==null){
-            throw new ApiException("service or user Not Found!");
+            throw new ApiException("Service Not Found!");
         }else if(services.getServiceProvider().getMyUser().getId()!=user_id){
             throw new ApiException("Sorry , You do not have the authority to delete this Service!");
         }
@@ -133,7 +133,7 @@ public class ServicesService {
         // check user and services
 
         if(services==null){
-            throw new ApiException("service Not Found!");
+            throw new ApiException("Service Not Found!");
         }
 
         return viewServices;
@@ -154,7 +154,7 @@ public class ServicesService {
         // check user and services
 
         if(services==null){
-            throw new ApiException("service Not Found!");
+            throw new ApiException("Service Not Found!");
         }
 
         return viewServices;

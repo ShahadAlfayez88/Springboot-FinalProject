@@ -42,7 +42,7 @@ public class CustomerService {
     public void updateCustomer(Integer user_id, Customer customer) {
         Customer oldCustomer = customerRepository.findCustomerByMyUser_Id(user_id);
         if (oldCustomer == null) {
-            throw new ApiException("Id not found!!");
+            throw new ApiException("Customer not found!!");
         }
         customer.setId(oldCustomer.getId());
         customerRepository.save(customer);
@@ -54,7 +54,7 @@ public class CustomerService {
     public void deleteCustomer(Integer user_id) {
         Customer customer = customerRepository.findCustomerByMyUser_Id(user_id);
         if (customer==null) {
-            throw new ApiException("Id is not found");
+            throw new ApiException("Customer is not found");
         }
         customerRepository.delete(customer);
 //        myUserRepository.delete();

@@ -49,7 +49,7 @@ public class CommentService {
 
         // check if the customer is allowed to add comment
         if(customer==null || serviceProvider==null){
-            throw new ApiException("Not Found");
+            throw new ApiException("Provider is Not Found");
         }
 
         for(int i = 0 ; i<customer.getBookingServices().size();i++){
@@ -64,7 +64,7 @@ public class CommentService {
                 serviceProvider.getComments().add(comment);
                 customerRepository.save(customer);
                 serviceProviderRepository.save(serviceProvider);
-                throw new ApiException("comment have been added");
+                throw new ApiException("Comment have been added");
 
             }
 

@@ -1,5 +1,6 @@
 package com.example.springbootfinalproject.Controller;
 
+import com.example.springbootfinalproject.ApiResponse;
 import com.example.springbootfinalproject.Exception.ApiException;
 import com.example.springbootfinalproject.Model.Address;
 import com.example.springbootfinalproject.Model.Comment;
@@ -30,7 +31,7 @@ public class CommentController {
     @PostMapping("/add/{provider_id}")
     public ResponseEntity addComment(@RequestBody @Valid Comment comment, @AuthenticationPrincipal MyUser auth, @PathVariable Integer provider_id){
         commentService.addComment(comment,auth.getId(),provider_id);
-        return ResponseEntity.status(HttpStatus.OK).body("Comment Added");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Comment Added"));
     }
 
     //update Comment
@@ -38,7 +39,7 @@ public class CommentController {
     @PutMapping("/update/{id}")
     public ResponseEntity updateComment(@RequestBody @Valid Comment comment, @PathVariable Integer id){
         commentService.updateComment(comment,id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment Updated"));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Comment Updated"));
     }
 
     //delete Comment
@@ -46,7 +47,7 @@ public class CommentController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteComment(@PathVariable Integer id){
         commentService.deleteComment(id);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiException("Comment deleted"));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Comment deleted"));
     }
 
 }

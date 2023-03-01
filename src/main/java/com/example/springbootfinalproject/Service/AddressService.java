@@ -69,7 +69,7 @@ public class AddressService {
         Customer customer = customerRepository.findCustomerByMyUser_Id(userId);
 
         if(customer==null){
-            throw new ApiException("Not Found!");
+            throw new ApiException("User Not Found!");
         }else if(customer.getMyUser().getId()!=userId){
             throw new ApiException("Sorry , You do not have the authority to add this address!");
         }
@@ -88,7 +88,7 @@ public class AddressService {
         ServiceProvider ServiceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(userId);
 
         if(ServiceProvider==null){
-            throw new ApiException("Not Found!");
+            throw new ApiException("User Not Found!");
         }else if(ServiceProvider.getMyUser().getId()!=userId){
             throw new ApiException("Sorry , You do not have the authority to add this address!");
         }
@@ -112,8 +112,8 @@ public class AddressService {
 
         ServiceProvider ServiceProvider = serviceProviderRepository.findServiceProviderByMyUser_Id(user_id);
 
-        if(oldAddress==null || myUser==null){
-            throw new ApiException("address or user Not Found!");
+        if(oldAddress==null || ServiceProvider==null){
+            throw new ApiException("Address Not Found!");
         }
         ServiceProvider serviceProvider = oldAddress.getServiceProvider();
 
@@ -139,7 +139,7 @@ public class AddressService {
         Address oldAddress=addressRepository.findAddressById(id);
 
         if(oldAddress==null || myUser==null){
-            throw new ApiException("address or user Not Found!");
+            throw new ApiException("Address Not Found!");
         }
 
         Customer customer =oldAddress.getCustomer();
@@ -168,7 +168,7 @@ public class AddressService {
 
 
         if(address==null || myUser==null){
-            throw new ApiException("address or user Not Found!");
+            throw new ApiException("Address Not Found!");
         }
         Customer customer =address.getCustomer();
 
@@ -186,7 +186,7 @@ public class AddressService {
 
 
         if(address==null || myUser==null){
-            throw new ApiException("address or user Not Found!");
+            throw new ApiException("Address Not Found!");
         }
         ServiceProvider serviceProvider = address.getServiceProvider();
 
